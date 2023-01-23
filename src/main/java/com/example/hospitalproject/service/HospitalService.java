@@ -19,7 +19,8 @@ public class HospitalService {
     private final HospitalRepository hospitalRepository;
     private final HospitalParser hospitalParser;
 
-    //@Transactional
+    // 11582초 -> 18초
+    @Transactional
     public String insertAllData(String filename) throws IOException {
         String result = "";
 
