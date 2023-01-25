@@ -22,7 +22,7 @@ public class HospitalParser {
         return Hospital.builder()
                 .id(Long.valueOf(split[1]))             // 번호 (PK)
                 .name(split[22])                        // 사업장 명
-                .status(Integer.valueOf(split[10]))     // 상세 영업 코드
+                .statusCode(Integer.valueOf(split[10]))     // 상세 영업 코드
                 .phone(split[16])                       // 소재지 전화
                 .roadNameAddress(split[20])             // 도로명 주소
                 .type(split[26])                        // 업태 구분 명

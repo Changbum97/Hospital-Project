@@ -19,7 +19,7 @@ public class Hospital {
     private Long id;                    // 번호 (PK)
 
     private String name;                // 사업장 명
-    private Integer status;             // 상세 영업 코드
+    private Integer statusCode;         // 상세 영업 코드 (13:영업중, 3:폐업, 2:휴업, 24:직권폐업)
     private String phone;               // 소재지 전화
     private String roadNameAddress;     // 도로명 주소
     private String type;                // 업태 구분 명

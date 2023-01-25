@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header.html :: head"/>
+
+<body>
+<div th:replace="fragments/header.html :: header"/>
+<br/>
+<div class="row">
+    <form align="center">
+        <div style="display: inline; height: 50px;">
+            <input  type="text" placeholder="병원명으로 검색" style="height: 100%; width: 300px"/>
+            <button type="submit" class="btn btn-success" style="height: 100%;">검색</button>
+        </div>
+    </form>
+</div>
+<br/>
+<div class="row">
+    <div class="offset-2">
+        <h3>조회된 병원수 : </h3>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="offset-2 col-8">
+        <table class="table list-table table-hover text-center table-warning">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>업태구분명</th>
+                <th>병원명</th>
+                <th>상세영업코드</th>
+                <th>주소</th>
+                <th>전화</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<br/>
+</body>
+</html>
