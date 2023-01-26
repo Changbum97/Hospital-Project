@@ -13,11 +13,11 @@ spring:
     password: root1234
   # JPA 설정
   jpa:
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.MySQL8Dialect
     database: mysql
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
   # PUT, DELETE 가능하게 해줌
   mvc:
     hiddenmethod:

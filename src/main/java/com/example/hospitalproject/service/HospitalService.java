@@ -23,19 +23,15 @@ public class HospitalService {
 
     // 약 11000초(3시간) 이상 -> 20초 이내
     @Transactional
-    public String insertAllData(String filename) throws IOException {
+    public int insertAllData(String filename) throws IOException {
 
         BufferedReader br = new BufferedReader(new FileReader(filename));
         br.readLine();      // 첫 줄은 머리말이기 때문에 제외
 
-        int lineCnt = 0;
         int successCnt = 0;
         String line;
 
-        long startTime = System.currentTimeMillis();
-
         while((line = br.readLine()) != null) {
-            lineCnt ++;
             try {
                 Hospital hospital = hospitalParser.parse(line);
                 hospitalRepository.save(hospital);
@@ -45,15 +41,7 @@ public class HospitalService {
             successCnt ++;
         }
 
-        long endTime = System.currentTimeMillis();
-
-        String result = "";
-        result += String.format("전체 개수 : %d개\n", lineCnt);
-        result += String.format("성공 개수 : %d개\n", successCnt);
-        result += String.format("실패 개수 : %d개\n", lineCnt - successCnt);
-        result += String.format("소요 시간 : %f초\n", (endTime - startTime) / 1000.0);
-
-        return result;
+        return successCnt;
     }
 
     public ExtractDto extract() {
@@ -79,5 +67,13 @@ public class HospitalService {
         long endTime = System.currentTimeMillis();
 
         return new ExtractDto(statusCodes, regions, types, (endTime - startTime) / 1000.0);
+    }
+
+    public Hospital findById(Long id) {
+        return hospitalRepository.findById(id).get();
+    }
+
+    public List<Hospital> findAll() {
+        return hospitalRepository.findAll();
     }
 }
