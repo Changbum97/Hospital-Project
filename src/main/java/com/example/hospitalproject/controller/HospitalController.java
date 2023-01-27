@@ -27,7 +27,7 @@ public class HospitalController {
     }
 
     /**
-     * JPA를 사용하여 전체 데이터 파싱 후 삽입 => 12만개 30초
+     * JPA를 사용하여 전체 데이터 하나씩 파싱 후 삽입 => 12만개 30초
      */
     @ResponseBody
     @PostMapping("/all")
@@ -52,7 +52,7 @@ public class HospitalController {
     }
 
     /**
-     * CSV 파일을 읽어와 한 줄 씩 직접 쿼리로 변환 => 12만개 1.5초
+     * CSV 파일을 읽어와 한 줄 씩 쿼리로 변환 => 12만개 1.5초
      */
     @ResponseBody
     @GetMapping("/make-queries-v1")
@@ -70,7 +70,7 @@ public class HospitalController {
     }
 
     /**
-     * 위에서 만든 sql 파일을 한 줄 씩 읽고 쿼리를 실행시켜 DB에 데이터 삽입 => 12만개 35초
+     * 위에서 만든 sql 파일에서 쿼리를 한 줄 씩 읽고 실행시켜 DB에 데이터 삽입 => 12만개 35초
      */
     @ResponseBody
     @GetMapping("/insert-query")
