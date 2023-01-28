@@ -2,6 +2,7 @@ package com.example.hospitalproject.controller;
 
 import com.example.hospitalproject.domain.Hospital;
 import com.example.hospitalproject.service.HospitalJdbcService;
+import com.example.hospitalproject.service.HospitalJdbcTemplateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +16,14 @@ import java.util.List;
 public class HospitalRestController {
 
     private final HospitalJdbcService hospitalJdbcService;
+    private final HospitalJdbcTemplateService hospitalJdbcTemplateService;
 
     /**
-     * CSV 파일을 읽어와 한 줄 씩 쿼리로 변환 => 12만개 1.8초
-     * JDBC를 사용하여 12만개의 삽입 쿼리 실행 => 12만개 35초
+     * CSV 파일을 읽어와 한 줄 씩 쿼리로 변환 후 queryV1에 저장 후
+     * JDBC를 사용하여 12만개의 삽입 쿼리 실행
      */
     @PostMapping("/jdbc/all/v1")
     public String insertAllV1() throws IOException, SQLException {
-
         int successCnt = hospitalJdbcService.insertAllDataV1(
                 "./extract_data/queryV1.sql",
                 "./original_data/hospital_data.csv");
@@ -30,8 +31,8 @@ public class HospitalRestController {
     }
 
     /**
-     * CSV 파일을 읽어와 한 줄 씩 쿼리로 변환 => 12만개 1.8초
-     * JDBC를 사용하여 1개의 삽입 쿼리 실행으로 12만개 데이터 한번에 삽입 => 12만개 2.5초
+     * CSV 파일을 읽어와 한 줄 씩 쿼리로 변환 후 queryV2에 저장 후
+     * JDBC를 사용하여 1개의 삽입 쿼리로 12만개 데이터 한번에 삽입
      */
     @PostMapping("/jdbc/all/v2")
     public String insertAllV2() throws IOException, SQLException {
@@ -66,6 +67,45 @@ public class HospitalRestController {
     @DeleteMapping("/jdbc/all")
     public String deleteAll() throws SQLException {
         hospitalJdbcService.deleteAll();
+        return "전체 삭제 성공";
+    }
+
+
+    /**
+     * CSV 파일을 읽어와 한 줄 씩 파싱 후 JDBC Template을 사용하여 전체 데이터 삽입
+     */
+    @PostMapping("/jdbc-template/all")
+    public String insertAllByJdbcTemplate() throws IOException {
+        int successCnt = hospitalJdbcTemplateService.insertAll(
+                "./extract_data/queryV2.sql",
+                "./original_data/hospital_data.csv");
+        return successCnt + "개 데이터 삽입 성공";
+    }
+
+    /**
+     * JDBC Template을 사용하여 전체 병원 리스트 조회
+     */
+    @GetMapping("/jdbc-template/all")
+    public String getAllByJdbcTemplate() {
+        List<Hospital> hospitals = hospitalJdbcTemplateService.findAll();
+        return hospitals.size() + "개 조회 성공";
+    }
+
+    /**
+     * JDBC Template을 사용하여 조건에 맞는(주소로 검색) 병원 조회
+     */
+    @GetMapping("/jdbc-template/{keyword}")
+    public String findByAddressByJdbcTemplate(@PathVariable String keyword) throws SQLException {
+        List<Hospital> hospitals = hospitalJdbcTemplateService.findByAddress(keyword);
+        return "주소에 '" + keyword + "'이(가) 포함된 병원 " + hospitals.size() + "개 조회 성공";
+    }
+
+    /**
+     * JDBC Template을 사용하여 전체 삭제
+     */
+    @DeleteMapping("/jdbc-template/all")
+    public String deleteAllByJdbcTemplate() throws SQLException {
+        hospitalJdbcTemplateService.deleteAll();
         return "전체 삭제 성공";
     }
 }
