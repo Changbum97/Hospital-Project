@@ -30,8 +30,8 @@ public class HospitalController {
      * JPA를 사용하여 전체 데이터 하나씩 파싱 후 삽입 => 12만개 30초
      */
     @ResponseBody
-    @PostMapping("/all")
-    public String insertAll() {
+    @PostMapping("/jpa/all")
+    public String insertAllByJpa() {
         try {
             long startTime = System.currentTimeMillis();
             int successCnt = hospitalService.insertAllData("./original_data/hospital_data.csv");
@@ -52,37 +52,51 @@ public class HospitalController {
     }
 
     /**
-     * CSV 파일을 읽어와 한 줄 씩 쿼리로 변환 => 12만개 1.5초
+     * CSV 파일을 읽어와 한 줄 씩 쿼리로 변환 => 12만개 1.8초
+     * 12만개의 삽입 쿼리 실행 => 12만개 35초
      */
     @ResponseBody
-    @GetMapping("/make-queries-v1")
-    public String makeQueriesV1() throws IOException {
+    @PostMapping("/driver-manager-v1/all")
+    public String insertAllByDriverMangerV1() throws IOException, SQLException {
         long startTime = System.currentTimeMillis();
 
         MakeSqlFile makeSqlFile = new MakeSqlFile("queryV1.sql");
         makeSqlFile.writeV1("./original_data/hospital_data.csv");
 
         long endTime = System.currentTimeMillis();
+        log.info("쿼리 생성 시간 : {} 초", (endTime - startTime) / 1000.0);
 
-        log.info("쿼리 생성 시간 : {}초", (endTime - startTime) / 1000.0);
-
-        return "쿼리 생성 완료";
-    }
-
-    /**
-     * 위에서 만든 sql 파일에서 쿼리를 한 줄 씩 읽고 실행시켜 DB에 데이터 삽입 => 12만개 35초
-     */
-    @ResponseBody
-    @GetMapping("/insert-query")
-    public String insertQuery() throws SQLException, IOException {
-        long startTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
 
         HospitalDao hospitalDao = new HospitalDao();
-        hospitalDao.insert("./extract_data/queryV1.sql");
+        hospitalDao.insertV1("./extract_data/queryV1.sql");
+
+        endTime = System.currentTimeMillis();
+        log.info("쿼리 삽입 시간 : {}초", (endTime - startTime) / 1000.0);
+
+        return "삽입 완료";
+    }
+
+    @ResponseBody
+    @PostMapping("/driver-manager-v2/all")
+    public String insertAllByDriverMangerV2() throws IOException, SQLException {
+        long startTime = System.currentTimeMillis();
+
+        MakeSqlFile makeSqlFile = new MakeSqlFile("queryV2.sql");
+        makeSqlFile.writeV2("./original_data/hospital_data.csv");
 
         long endTime = System.currentTimeMillis();
+        log.info("쿼리 생성 시간 : {}초", (endTime - startTime) / 1000.0);
 
-        log.info("쿼리 입력 시간 : {}초", (endTime - startTime) / 1000.0);
-        return "쿼리 입력 완료";
+        startTime = System.currentTimeMillis();
+
+        HospitalDao hospitalDao = new HospitalDao();
+        hospitalDao.insertV2("./extract_data/queryV2.sql");
+
+        endTime = System.currentTimeMillis();
+        log.info("쿼리 삽입 시간 : {}초", (endTime - startTime) / 1000.0);
+
+        return "삽입 완료";
     }
+
 }

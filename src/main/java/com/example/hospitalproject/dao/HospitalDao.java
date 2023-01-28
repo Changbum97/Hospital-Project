@@ -28,7 +28,7 @@ public class HospitalDao {
         conn = DriverManager.getConnection(dbHost, dbUser, dbPassword);
     }
 
-    public void insert(String fileName) throws SQLException, IOException {
+    public void insertV1(String fileName) throws SQLException, IOException {
 
         BufferedReader br = new BufferedReader(new FileReader(fileName));
 
@@ -42,6 +42,13 @@ public class HospitalDao {
             ps.executeUpdate();
         }
 
+        ps.close();
+    }
+
+    public void insertV2(String fileName) throws SQLException, IOException {
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        PreparedStatement ps = conn.prepareStatement(br.readLine());
+        ps.executeUpdate();
         ps.close();
     }
 }
