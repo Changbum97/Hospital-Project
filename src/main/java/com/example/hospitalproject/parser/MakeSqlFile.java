@@ -1,28 +1,20 @@
 package com.example.hospitalproject.parser;
 
 import com.example.hospitalproject.domain.Hospital;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.util.List;
 
 public class MakeSqlFile {
 
-    private String path;
-    private String fullPath;
     private String fileName;
 
     public MakeSqlFile(String fileName) {
-        this.path = "./extract_data/";
         this.fileName = fileName;
-        this.fullPath = path + fileName;
         createFile();
     }
 
     public void createFile() {
-        File file = new File(fullPath);
+        File file = new File(fileName);
         try {
             if(file.exists()) {
                 file.delete();
@@ -40,7 +32,7 @@ public class MakeSqlFile {
         BufferedReader br = new BufferedReader(new FileReader(inputFileName));
         br.readLine();      // 첫 줄은 머리말이기 때문에 제외
 
-        BufferedWriter bw = new BufferedWriter(new FileWriter(fullPath));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
 
         String line;
         while((line = br.readLine()) != null) {
@@ -61,7 +53,7 @@ public class MakeSqlFile {
         BufferedReader br = new BufferedReader(new FileReader(inputFileName));
         br.readLine();      // 첫 줄은 머리말이기 때문에 제외
 
-        BufferedWriter bw = new BufferedWriter(new FileWriter(fullPath));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
         bw.write("INSERT INTO `likelion-db`.`hospital` (`id`,`name`,`status_code`,`phone`,`road_name_address`,`type`,`employees_cnt`, `has_inpatient_room`, `area`) VALUES ");
 
         String nowLine = br.readLine();

@@ -1,9 +1,9 @@
 package com.example.hospitalproject.dao;
 
 import com.example.hospitalproject.domain.Hospital;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class HospitalDao {
 
     private Map<String, String> env;
@@ -29,11 +30,12 @@ public class HospitalDao {
         conn = DriverManager.getConnection(dbHost, dbUser, dbPassword);
     }
 
-    public void insertV1(String fileName) throws SQLException, IOException {
+    public int insertV1(String fileName) throws SQLException, IOException {
 
         BufferedReader br = new BufferedReader(new FileReader(fileName));
 
         String line;
+        int successCnt = 0;
         PreparedStatement ps = null;
         while((line = br.readLine()) != null) {
             // 쿼리 입력
@@ -41,9 +43,12 @@ public class HospitalDao {
 
             // 쿼리 실행
             ps.executeUpdate();
+
+            successCnt ++;
         }
 
         ps.close();
+        return successCnt;
     }
 
     public void insertV2(String fileName) throws SQLException, IOException {
@@ -62,9 +67,13 @@ public class HospitalDao {
     public List<Hospital> findByAddress(String keyword) throws SQLException {
         PreparedStatement ps = conn.prepareStatement("SELECT * FROM `likelion-db`.hospital WHERE road_name_address LIKE ?;");
         ps.setString(1, '%'+keyword+'%');
-        System.out.println(ps);
         ResultSet rs = ps.executeQuery();
         return resultSetToList(rs);
+    }
+
+    public void deleteAll() throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("DELETE FROM `likelion-db`.hospital");
+        ps.executeUpdate();
     }
 
     private List<Hospital> resultSetToList(ResultSet rs) throws SQLException {
