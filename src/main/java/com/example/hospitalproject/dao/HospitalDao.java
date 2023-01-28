@@ -1,13 +1,14 @@
 package com.example.hospitalproject.dao;
 
+import com.example.hospitalproject.domain.Hospital;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class HospitalDao {
@@ -50,5 +51,38 @@ public class HospitalDao {
         PreparedStatement ps = conn.prepareStatement(br.readLine());
         ps.executeUpdate();
         ps.close();
+    }
+
+    public List<Hospital> findAll() throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM `likelion-db`.hospital;");
+        ResultSet rs = ps.executeQuery();
+        return resultSetToList(rs);
+    }
+
+    public List<Hospital> findByAddress(String keyword) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM `likelion-db`.hospital WHERE road_name_address LIKE ?;");
+        ps.setString(1, '%'+keyword+'%');
+        System.out.println(ps);
+        ResultSet rs = ps.executeQuery();
+        return resultSetToList(rs);
+    }
+
+    private List<Hospital> resultSetToList(ResultSet rs) throws SQLException {
+        List<Hospital> hospitals = new ArrayList<>();
+        while(rs.next()) {
+            Hospital hospital = Hospital.builder()
+                    .id(rs.getLong("id"))
+                    .name(rs.getString("name"))
+                    .statusCode(rs.getInt("status_code"))
+                    .phone(rs.getString("phone"))
+                    .roadNameAddress(rs.getString("road_name_address"))
+                    .type(rs.getString("type"))
+                    .employeesCnt(rs.getInt("employees_cnt"))
+                    .hasInpatientRoom(rs.getBoolean("has_inpatient_room"))
+                    .area(rs.getDouble("area"))
+                    .build();
+            hospitals.add(hospital);
+        }
+        return hospitals;
     }
 }
