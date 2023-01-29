@@ -25,19 +25,29 @@ public class HospitalController {
     private final HospitalService hospitalService;
 
     @GetMapping(value = {"", "/", "/all"})
-    public String getAll(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.ASC)Pageable pageable) {
-        Page<Hospital> hospitals = hospitalService.findAll(pageable);
+    public String getAll(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.ASC)Pageable pageable,
+                         @RequestParam(defaultValue = "") String region,
+                         @RequestParam(required = false) Integer statusCode,
+                         @RequestParam(defaultValue = "") String type,
+                         @RequestParam(defaultValue = "") String keyword) {
+
+//        Page<Hospital> hospitals = hospitalService.findAll(pageable);
+        Page<Hospital> hospitals = hospitalService.search(region, statusCode, type, keyword, pageable);
         model.addAttribute("cnt", hospitals.getTotalElements());
 
+        // 검색 옵션 유지를 위해 전송
+        if(!region.equals(""))  model.addAttribute("region", region);
+        if(statusCode != null)  model.addAttribute("statusCode", statusCode);
+        if(!type.equals(""))    model.addAttribute("type", type);
+        if(!keyword.equals("")) model.addAttribute("keyword", keyword);
+
+        // 페이징 작업을 위해 전송
         if (hospitals.getNumber() == 0) {
             model.addAttribute("isFirstPage", true);
         }else if (hospitals.getNumber() == hospitals.getTotalPages() - 1) {
             model.addAttribute("isLastPage", true);
-            model.addAttribute("previousTwoPage", hospitals.getNumber() - 1);
         }
-        model.addAttribute("previousPage", hospitals.getNumber());
         model.addAttribute("nowPage", hospitals.getNumber() + 1);
-        model.addAttribute("nextPage", hospitals.getNumber() + 2);
         model.addAttribute("lastPage", hospitals.getTotalPages());
 
         // Hospital -> HospitalListDto

@@ -75,4 +75,21 @@ public class HospitalService {
     public Page<Hospital> findAll(Pageable pageable) {
         return hospitalRepository.findAll(pageable);
     }
+
+    public Page<Hospital> search(String region, Integer statusCode, String type, String keyword, Pageable pageable) {
+        // statusCode, type은 contains가 아니기 때문에 null이 들어오면 조회 안 됨 => 별도의 처리 필요
+        if(statusCode != null && !type.equals("")) {
+            return hospitalRepository.findByRoadNameAddressContainsAndStatusCodeAndTypeAndNameContains(
+                    region, statusCode, type, keyword, pageable);
+        } else if(statusCode == null && !type.equals("")) {
+            return hospitalRepository.findByRoadNameAddressContainsAndTypeAndNameContains(
+                    region, type, keyword, pageable);
+        } else if(statusCode != null && type.equals("")) {
+            return hospitalRepository.findByRoadNameAddressContainsAndStatusCodeAndNameContains(
+                    region, statusCode, keyword, pageable);
+        } else {
+            return hospitalRepository.findByRoadNameAddressContainsAndNameContains(
+                    region, keyword, pageable);
+        }
+    }
 }

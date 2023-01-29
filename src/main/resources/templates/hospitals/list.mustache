@@ -1,8 +1,46 @@
 {{>fragments/header}}
 <div class="row">
-    <form align="center">
-        <div style="display: inline; height: 50px;">
-            <input  type="text" placeholder="병원명으로 검색" style="height: 100%; width: 300px"/>
+    <form align="center" action="/hospitals" method="get" style="height: 40px;">
+        <select name="region" style="height: 100%">
+            <option value="">지역</option>
+            <option id="서울특별시" value="서울특별시">서울특별시</option>
+            <option id="경기도" value="경기도">경기도</option>
+            <option id="강원도" value="강원도">강원도</option>
+            <option id="경상남도" value="경상남도">경상남도</option>
+            <option id="경상북도" value="경상북도">경상북도</option>
+            <option id="충청남도" value="충청남도">충청남도</option>
+            <option id="충청북도" value="충청북도">충청북도</option>
+            <option id="전라남도" value="전라남도">전라남도</option>
+            <option id="전라북도" value="전라북도">전라북도</option>
+            <option id="제주특별자치도" value="제주특별자치도">제주특별자치도</option>
+            <option id="대전광역시" value="대전광역시">대전광역시</option>
+            <option id="울산광역시" value="울산광역시">울산광역시</option>
+            <option id="광주광역시" value="광주광역시">광주광역시</option>
+            <option id="부산광역시" value="부산광역시">부산광역시</option>
+            <option id="대구광역시" value="대구광역시">대구광역시</option>
+            <option id="인천광역시" value="인천광역시">인천광역시</option>
+            <option id="세종특별자치시" value="세종특별자치시">세종특별자치시</option>
+        </select>
+        <select name="statusCode" style="height: 100%">
+            <option value="">영업상태</option>
+            <option id="13" value=13>영업중</option>
+            <option id="2" value=2>휴업</option>
+            <option id="3" value=3>폐업</option>
+            <option id="24" value=24>직권폐업</option>
+        </select>
+        <select name="type" style="height: 100%">
+            <option value="">업태구분명</option>
+            <option id="의원" value="의원">의원</option>
+            <option id="치과의원" value="치과의원">치과의원</option>
+            <option id="보건의료원" value="보건의료원">보건의료원</option>
+            <option id="보건진료소" value="보건진료소">보건진료소</option>
+            <option id="보건소" value="보건소">보건소</option>
+            <option id="조산원" value="조산원">조산원</option>
+            <option id="보건지소" value="보건지소">보건지소</option>
+            <option id="한의원" value="한의원">한의원</option>
+        </select>
+        <div style="display: inline; height: 40px;">
+            <input  type="text" placeholder="병원명으로 검색" style="height: 100%; width: 300px" name="keyword"/>
             <button type="submit" class="btn btn-success" style="height: 100%;">검색</button>
         </div>
     </form>
@@ -25,7 +63,7 @@
             </thead>
             <tbody>
             {{#hospitals}}
-                <tr>
+                <tr onclick="location.href='/hospitals/{{id}}'">
                     <th>{{id}}</th>
                     <th>{{type}}</th>
                     <th>{{name}}</th>
@@ -40,28 +78,103 @@
 </div>
 <br/>
 <ul class="pagination justify-content-center">
-    {{#isFirstPage}}
-        <li class="page-item"><a class="page-link disabled">&laquo;</a></li>
-        <li class="page-item active"><a class="page-link">1</a></li>
-        <li class="page-item"><a class="page-link" href="/hospitals?page=2">2</a></li>
-        <li class="page-item"><a class="page-link" href="/hospitals?page=2">3</a></li>
-        <li class="page-item"><a class="page-link" href="/hospitals?page={{lastPage}}">&raquo;</a></li>
-    {{/isFirstPage}}
-    {{^isFirstPage}}
+    <li class="page-item"><a id="firstPageLink" class="page-link" onclick="to_first_page()">&laquo;</a></li>
+    <li id="previousPage" class="page-item"><a id="previousPageLink" class="page-link" onclick="to_previous_page()"></a></li>
+    <li id="nowPage" class="page-item active"><a id="nowPageLink" class="page-link" onclick="to_now_page()"></a></li>
+    <li id="nextPage" class="page-item"><a id="nextPageLink" class="page-link" onclick="to_next_page()"></a></li>
+    <li class="page-item"><a id="lastPageLink" class="page-link" onclick="to_last_page()">&raquo;</a></li>
+</ul>
+
+<script type="text/javascript">
+    window.onload = function () {
+        // 검색 값 유지 처리
+        {{#region}}
+            document.getElementById('{{region}}').setAttribute("selected", true)
+        {{/region}}
+        {{#statusCode}}
+            document.getElementById('{{statusCode}}').setAttribute("selected", true)
+        {{/statusCode}}
+        {{#type}}
+            document.getElementById('{{type}}').setAttribute("selected", true)
+        {{/type}}
+        {{#keyword}}
+            document.getElementsByName('keyword').item(0).value = '{{keyword}}';
+        {{/keyword}}
+
+        // 페이지 버튼 출력 처리
+        {{#isFirstPage}}
+            document.getElementById('firstPageLink').className = "page-link disabled";
+            document.getElementById('previousPage').className = "page-item active readonly";
+            document.getElementById('nowPage').className = "page-item";
+            document.getElementById('previousPageLink').textContent = 1;
+            document.getElementById('nowPageLink').textContent = 2;
+            document.getElementById('nextPageLink').textContent = 3;
+        {{/isFirstPage}}
         {{#isLastPage}}
-            <li class="page-item"><a class="page-link" href="/hospitals?page=1">&laquo;</a></li>
-            <li class="page-item"><a class="page-link" href="/hospitals?page={{previousTwoPage}}">{{previousTwoPage}}</a></li>
-            <li class="page-item"><a class="page-link" href="/hospitals?page={{previousPage}}">{{previousPage}}</a></li>
-            <li class="page-item active"><a class="page-link">{{nowPage}}</a></li>
-            <li class="page-item"><a class="page-link disabled">&raquo;</a></li>
+            document.getElementById('lastPageLink').className = "page-link disabled";
+            document.getElementById('nextPage').className = "page-item active readonly";
+            document.getElementById('nowPage').className = "page-item";
+            document.getElementById('previousPageLink').textContent = {{nowPage}} - 2;
+            document.getElementById('nowPageLink').textContent = {{nowPage}} - 1;
+            document.getElementById('nextPageLink').textContent = {{nowPage}};
+        {{/isLastPage}}
+        {{^isFirstPage}}
+            {{^isLastPage}}
+                document.getElementById('lastPageLink').className = "page-link";
+                document.getElementById('previousPageLink').textContent = {{nowPage}} - 1;
+                document.getElementById('nowPageLink').textContent = {{nowPage}};
+                document.getElementById('nextPageLink').textContent = {{nowPage}} + 1;
+            {{/isLastPage}}
+        {{/isFirstPage}}
+    }
+
+    // 페이지 이동 처리
+    function to_first_page() {
+        location.href = make_url("/hospitals?page=1")
+    }
+    function to_previous_page() {
+        {{#isLastPage}}
+            location.href = make_url("/hospitals?page=" + ({{nowPage}} - 2))
         {{/isLastPage}}
         {{^isLastPage}}
-            <li class="page-item"><a class="page-link" href="/hospitals?page=1">&laquo;</a></li>
-            <li class="page-item"><a class="page-link" href="/hospitals?page={{previousPage}}">{{previousPage}}</a></li>
-            <li class="page-item active"><a class="page-link">{{nowPage}}</a></li>
-            <li class="page-item"><a class="page-link" href="/hospitals?page={{nextPage}}">{{nextPage}}</a></li>
-            <li class="page-item"><a class="page-link" href="/hospitals?page={{lastPage}}">&raquo;</a></li>
+            location.href = make_url("/hospitals?page=" + ({{nowPage}} - 1))
         {{/isLastPage}}
-    {{/isFirstPage}}
-</ul>
+    }
+    function to_now_page() {
+        {{#isFirstPage}}
+            location.href =  make_url("/hospitals?page=2")
+        {{/isFirstPage}}
+        {{#isLastPage}}
+            location.href = make_url("/hospitals?page=" + ({{nowPage}} - 1))
+        {{/isLastPage}}
+    }
+    function to_next_page() {
+        {{#isFirstPage}}
+            location.href =  make_url("/hospitals?page=3")
+        {{/isFirstPage}}
+        {{^isFirstPage}}
+            location.href = make_url("/hospitals?page=" + ({{nowPage}} + 1))
+        {{/isFirstPage}}
+    }
+    function to_last_page() {
+        location.href = make_url("/hospitals?page={{lastPage}}")
+    }
+
+    function make_url(url) {
+        {{#region}}
+            url += "&region={{region}}"
+        {{/region}}
+        {{#statusCode}}
+            url += "&statusCode={{statusCode}}"
+        {{/statusCode}}
+        {{#type}}
+            url += "&type={{type}}"
+        {{/type}}
+        {{#keyword}}
+            url += "&keyword={{keyword}}"
+        {{/keyword}}
+        return url
+    }
+</script>
+
 {{>fragments/footer}}
