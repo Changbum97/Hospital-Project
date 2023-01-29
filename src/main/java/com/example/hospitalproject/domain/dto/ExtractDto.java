@@ -1,4 +1,4 @@
-package com.example.hospitalproject.domain;
+package com.example.hospitalproject.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

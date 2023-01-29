@@ -1,0 +1,67 @@
+{{>fragments/header}}
+<div class="row">
+    <form align="center">
+        <div style="display: inline; height: 50px;">
+            <input  type="text" placeholder="병원명으로 검색" style="height: 100%; width: 300px"/>
+            <button type="submit" class="btn btn-success" style="height: 100%;">검색</button>
+        </div>
+    </form>
+</div>
+<br/>
+<div class="row">
+    <div class="offset-1 col-10">
+        <h3>병원수 : {{cnt}}개</h3>
+
+        <table class="table list-table table-hover text-center">
+            <thead class="table-warning">
+            <tr>
+                <th>id</th>
+                <th>업태구분명</th>
+                <th>병원명</th>
+                <th>영업상태</th>
+                <th>주소</th>
+                <th>전화</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#hospitals}}
+                <tr>
+                    <th>{{id}}</th>
+                    <th>{{type}}</th>
+                    <th>{{name}}</th>
+                    <th>{{status}}</th>
+                    <th>{{roadNameAddress}}</th>
+                    <th>{{phone}}</th>
+                </tr>
+            {{/hospitals}}
+            </tbody>
+        </table>
+    </div>
+</div>
+<br/>
+<ul class="pagination justify-content-center">
+    {{#isFirstPage}}
+        <li class="page-item"><a class="page-link disabled">&laquo;</a></li>
+        <li class="page-item active"><a class="page-link">1</a></li>
+        <li class="page-item"><a class="page-link" href="/hospitals?page=2">2</a></li>
+        <li class="page-item"><a class="page-link" href="/hospitals?page=2">3</a></li>
+        <li class="page-item"><a class="page-link" href="/hospitals?page={{lastPage}}">&raquo;</a></li>
+    {{/isFirstPage}}
+    {{^isFirstPage}}
+        {{#isLastPage}}
+            <li class="page-item"><a class="page-link" href="/hospitals?page=1">&laquo;</a></li>
+            <li class="page-item"><a class="page-link" href="/hospitals?page={{previousTwoPage}}">{{previousTwoPage}}</a></li>
+            <li class="page-item"><a class="page-link" href="/hospitals?page={{previousPage}}">{{previousPage}}</a></li>
+            <li class="page-item active"><a class="page-link">{{nowPage}}</a></li>
+            <li class="page-item"><a class="page-link disabled">&raquo;</a></li>
+        {{/isLastPage}}
+        {{^isLastPage}}
+            <li class="page-item"><a class="page-link" href="/hospitals?page=1">&laquo;</a></li>
+            <li class="page-item"><a class="page-link" href="/hospitals?page={{previousPage}}">{{previousPage}}</a></li>
+            <li class="page-item active"><a class="page-link">{{nowPage}}</a></li>
+            <li class="page-item"><a class="page-link" href="/hospitals?page={{nextPage}}">{{nextPage}}</a></li>
+            <li class="page-item"><a class="page-link" href="/hospitals?page={{lastPage}}">&raquo;</a></li>
+        {{/isLastPage}}
+    {{/isFirstPage}}
+</ul>
+{{>fragments/footer}}

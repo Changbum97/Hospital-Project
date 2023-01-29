@@ -1,11 +1,20 @@
 package com.example.hospitalproject.controller;
 
-import com.example.hospitalproject.domain.ExtractDto;
+import com.example.hospitalproject.domain.dto.ExtractDto;
+import com.example.hospitalproject.domain.Hospital;
+import com.example.hospitalproject.domain.dto.HospitalListDto;
 import com.example.hospitalproject.service.HospitalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -15,8 +24,28 @@ public class HospitalController {
 
     private final HospitalService hospitalService;
 
-    @GetMapping("/all")
-    public String getAll() {
+    @GetMapping(value = {"", "/", "/all"})
+    public String getAll(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.ASC)Pageable pageable) {
+        Page<Hospital> hospitals = hospitalService.findAll(pageable);
+        model.addAttribute("cnt", hospitals.getTotalElements());
+
+        if (hospitals.getNumber() == 0) {
+            model.addAttribute("isFirstPage", true);
+        }else if (hospitals.getNumber() == hospitals.getTotalPages() - 1) {
+            model.addAttribute("isLastPage", true);
+            model.addAttribute("previousTwoPage", hospitals.getNumber() - 1);
+        }
+        model.addAttribute("previousPage", hospitals.getNumber());
+        model.addAttribute("nowPage", hospitals.getNumber() + 1);
+        model.addAttribute("nextPage", hospitals.getNumber() + 2);
+        model.addAttribute("lastPage", hospitals.getTotalPages());
+
+        // Hospital -> HospitalListDto
+        model.addAttribute("hospitals",
+                hospitals.stream()
+                .map(hospital -> HospitalListDto.of(hospital))
+                .collect(Collectors.toList()));
+
         return "hospitals/list";
     }
 

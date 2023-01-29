@@ -1,10 +1,14 @@
 package com.example.hospitalproject.service;
 
-import com.example.hospitalproject.domain.ExtractDto;
+import com.example.hospitalproject.domain.dto.ExtractDto;
 import com.example.hospitalproject.domain.Hospital;
+import com.example.hospitalproject.domain.dto.HospitalListDto;
 import com.example.hospitalproject.parser.HospitalParser;
 import com.example.hospitalproject.repository.HospitalRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,6 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,7 +72,7 @@ public class HospitalService {
         return hospitalRepository.findById(id).get();
     }
 
-    public List<Hospital> findAll() {
-        return hospitalRepository.findAll();
+    public Page<Hospital> findAll(Pageable pageable) {
+        return hospitalRepository.findAll(pageable);
     }
 }
