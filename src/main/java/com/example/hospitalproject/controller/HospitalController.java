@@ -39,14 +39,13 @@ public class HospitalController {
         }
     }
 
-
-
-    @ResponseBody
-    @PostMapping("/jdbc-template/all")
-    public String insertAllByJdbcTemplate() {
-        return "삽입 완료";
-    }
-
+    /**
+     * 삽입된 데이터에서 statusCode, region, type 추출 결과
+     * statusCode(상세 영업 코드) => 13(영업중), 2(휴업), 3(폐업), 24(직권폐업)
+     * type(업태구분명) => 의원, 치과의원, 보건의료원, 보건진료소, 보건소, 조산원, 보건지소, 한의원
+     * region(지역, 17개) => 서울특별시, 대전광역시, 울산광역시, 광주광역시, 부산광역시, 대구광역시, 인천광역시, 세종특별자치시
+     *                경기도, 전라남도, 전라북도, 경상남도, 경상북도, 충청남도, 충청북도, 제주특별자치도, 강원도
+     */
     @ResponseBody
     @GetMapping("/extract")
     public ExtractDto extract() {

@@ -21,7 +21,7 @@ public class HospitalService {
     private final HospitalRepository hospitalRepository;
     private final HospitalParser hospitalParser;
 
-    // 약 11000초(3시간) 이상 -> 20초 이내
+    // 약 11000초(3시간) 이상 -> @Transcational 사용 후 20초 이내로 시간 단축
     @Transactional
     public int insertAllData(String filename) throws IOException {
 
@@ -45,12 +45,10 @@ public class HospitalService {
     }
 
     public ExtractDto extract() {
-        long startTime = System.currentTimeMillis();
-
         List<Hospital> hospitals = hospitalRepository.findAll();
 
         HashSet<Integer> statusCodes = new HashSet<>();   // 상세 영업 코드 추출
-        HashSet<String> regions = new HashSet<>();         // 지역(~~도 ~~시) 추출
+        HashSet<String> regions = new HashSet<>();         // 지역 추출
         HashSet<String> types = new HashSet<>();           // 업태 구분 명 추출
 
         for(Hospital hospital : hospitals) {
@@ -58,15 +56,11 @@ public class HospitalService {
             types.add(hospital.getType());
 
             String[] split = hospital.getRoadNameAddress().split(" ");
-            if(split.length >= 2) {
-                String region = split[0] + " " + split[1];
-                regions.add(region);
+            if(split.length >= 1) {
+                regions.add(split[0]);
             }
         }
-
-        long endTime = System.currentTimeMillis();
-
-        return new ExtractDto(statusCodes, regions, types, (endTime - startTime) / 1000.0);
+        return new ExtractDto(statusCodes, regions, types);
     }
 
     public Hospital findById(Long id) {
