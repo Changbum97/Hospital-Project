@@ -1,6 +1,6 @@
 package com.example.hospitalproject.dao;
 
-import com.example.hospitalproject.domain.Hospital;
+import com.example.hospitalproject.domain.entity.Hospital;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;

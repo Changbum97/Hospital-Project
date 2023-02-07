@@ -1,6 +1,6 @@
 package com.example.hospitalproject.controller;
 
-import com.example.hospitalproject.domain.Hospital;
+import com.example.hospitalproject.domain.entity.Hospital;
 import com.example.hospitalproject.service.HospitalJdbcService;
 import com.example.hospitalproject.service.HospitalJdbcTemplateService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.example.hospitalproject.repository;
 
-import com.example.hospitalproject.domain.Hospital;
+import com.example.hospitalproject.domain.entity.Hospital;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

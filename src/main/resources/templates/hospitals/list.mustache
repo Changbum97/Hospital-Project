@@ -1,6 +1,9 @@
 {{>fragments/header}}
 <div class="row">
     <form align="center" action="/hospitals" method="get" style="height: 40px;">
+        <input type="radio" name="sortByReviewCnt">
+            <label for="sortByReviewCnt">리뷰 많은 순</label>
+        </input>
         <select name="region" style="height: 100%">
             <option value="">지역</option>
             <option id="서울특별시" value="서울특별시">서울특별시</option>
@@ -59,6 +62,7 @@
                 <th>영업상태</th>
                 <th>주소</th>
                 <th>전화</th>
+                <th>리뷰 개수</th>
             </tr>
             </thead>
             <tbody>
@@ -70,6 +74,7 @@
                     <th>{{status}}</th>
                     <th>{{roadNameAddress}}</th>
                     <th>{{phone}}</th>
+                    <th>{{reviewCnt}}</th>
                 </tr>
             {{/hospitals}}
             </tbody>

@@ -1,6 +1,6 @@
 package com.example.hospitalproject.dao;
 
-import com.example.hospitalproject.domain.Hospital;
+import com.example.hospitalproject.domain.entity.Hospital;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

@@ -1,13 +1,11 @@
 package com.example.hospitalproject.service;
 
 import com.example.hospitalproject.domain.dto.ExtractDto;
-import com.example.hospitalproject.domain.Hospital;
-import com.example.hospitalproject.domain.dto.HospitalListDto;
+import com.example.hospitalproject.domain.entity.Hospital;
 import com.example.hospitalproject.parser.HospitalParser;
 import com.example.hospitalproject.repository.HospitalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +15,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

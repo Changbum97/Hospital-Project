@@ -1,7 +1,7 @@
 package com.example.hospitalproject.service;
 
 import com.example.hospitalproject.dao.HospitalDao2;
-import com.example.hospitalproject.domain.Hospital;
+import com.example.hospitalproject.domain.entity.Hospital;
 import com.example.hospitalproject.parser.HospitalParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

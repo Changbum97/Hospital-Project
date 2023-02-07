@@ -1,9 +1,12 @@
-package com.example.hospitalproject.domain;
+package com.example.hospitalproject.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,4 +27,14 @@ public class Hospital {
     private Integer employeesCnt;       // 의료인 수
     private Boolean hasInpatientRoom;   // 입원실 여부
     private Double area;                // 총 면적
+
+    @OneToMany(mappedBy = "hospital")
+    private List<Review> reviews;
+
+    @ColumnDefault(value = "0")
+    private Integer reviewCnt;
+
+    public void addReview() {
+        reviewCnt ++;
+    }
 }

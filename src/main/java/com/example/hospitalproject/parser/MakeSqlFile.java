@@ -1,6 +1,6 @@
 package com.example.hospitalproject.parser;
 
-import com.example.hospitalproject.domain.Hospital;
+import com.example.hospitalproject.domain.entity.Hospital;
 
 import java.io.*;
 

@@ -1,12 +1,13 @@
 package com.example.hospitalproject.controller;
 
-import com.example.hospitalproject.domain.dto.ExtractDto;
-import com.example.hospitalproject.domain.Hospital;
-import com.example.hospitalproject.domain.dto.HospitalListDto;
+import com.example.hospitalproject.domain.dto.*;
+import com.example.hospitalproject.domain.entity.Hospital;
 import com.example.hospitalproject.service.HospitalService;
+import com.example.hospitalproject.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -23,15 +24,21 @@ import java.util.stream.Collectors;
 public class HospitalController {
 
     private final HospitalService hospitalService;
+    private final ReviewService reviewService;
 
-    @GetMapping(value = {"", "/", "/all"})
-    public String getAll(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.ASC)Pageable pageable,
+    @GetMapping(value = {"", "/"})
+    public String getAll(Model model,
+                         @RequestParam(required = false, defaultValue = "1") Integer page,
                          @RequestParam(defaultValue = "") String region,
                          @RequestParam(required = false) Integer statusCode,
                          @RequestParam(defaultValue = "") String type,
-                         @RequestParam(defaultValue = "") String keyword) {
+                         @RequestParam(defaultValue = "") String keyword,
+                         @RequestParam(defaultValue = "false") Boolean sortByReviewCnt) {
 
-//        Page<Hospital> hospitals = hospitalService.findAll(pageable);
+        PageRequest pageable = PageRequest.of(page - 1, 10, Sort.by("id").ascending());
+        if(sortByReviewCnt == true) {
+            pageable = PageRequest.of(page - 1, 10, Sort.by("reviewCnt").descending());
+        }
         Page<Hospital> hospitals = hospitalService.search(region, statusCode, type, keyword, pageable);
         model.addAttribute("cnt", hospitals.getTotalElements());
 
@@ -50,13 +57,30 @@ public class HospitalController {
         model.addAttribute("nowPage", hospitals.getNumber() + 1);
         model.addAttribute("lastPage", hospitals.getTotalPages());
 
-        // Hospital -> HospitalListDto
+        // Hospitals -> HospitalListDto
         model.addAttribute("hospitals",
                 hospitals.stream()
                 .map(hospital -> HospitalListDto.of(hospital))
                 .collect(Collectors.toList()));
 
         return "hospitals/list";
+    }
+
+    @GetMapping("/{hospitalId}")
+    public String showDetail(@PathVariable Long hospitalId, Model model) {
+        Hospital hospital = hospitalService.findById(hospitalId);
+        model.addAttribute("dto", HospitalDetailDto.of(hospital));
+        model.addAttribute("reviewCreateDto", new ReviewCreateDto());
+        model.addAttribute("reviewList", reviewService.getReviewList(hospitalId).stream()
+                .map(review -> ReviewDetailDto.of(review))
+                .collect(Collectors.toList()));
+        return "hospitals/detail";
+    }
+
+    @PostMapping("/{hospitalId}/reviews")
+    public String postReview(@PathVariable Long hospitalId, ReviewCreateDto dto) {
+        reviewService.save(hospitalId, dto);
+        return "redirect:/hospitals/" + hospitalId;
     }
 
     /**
