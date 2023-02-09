@@ -18,6 +18,7 @@ public class Review {
     private String writer;
     private String texts;
     private LocalDateTime createdAt;
+    private Integer star;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hospital_id")

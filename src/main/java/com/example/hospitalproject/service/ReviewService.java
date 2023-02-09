@@ -19,7 +19,7 @@ public class ReviewService {
 
     public void save(Long hospitalId, ReviewCreateDto dto) {
         Hospital hospital = hospitalRepository.findById(hospitalId).get();
-        hospital.addReview();
+        hospital.addReview(dto.getStar());
         hospitalRepository.save(hospital);
         reviewRepository.save(dto.toEntity(hospital));
     }

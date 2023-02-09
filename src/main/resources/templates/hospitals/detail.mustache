@@ -1,8 +1,8 @@
 {{>fragments/header}}
 
 <div class="row">
-    <div class="offset-1 col-5" style="border-right: solid 1px black;">
-        <h2>{{dto.name}}</h2>
+    <div class="offset-1 col-4" style="border-right: solid 1px black;">
+        <h2>{{dto.name}} ({{dto.starAvg}}/5)</h2>
         <br/>
         <h4>도로명 주소 : {{dto.roadNameAddress}}</h4>
         <h4>전화 번호 : {{dto.phone}}</h4>
@@ -12,15 +12,27 @@
         <h4>입원실 : {{dto.hasInpatientRoom}}</h4>
         <h4>병원 면적 : {{dto.area}}㎡</h4>
     </div>
-    <div class="col-5" style="margin-left: 30px">
+    <div class="col-6" style="margin-left: 30px">
         <h2>리뷰 추가</h2>
         <form action="/hospitals/{{dto.id}}/reviews" method="post">
             <div class="mb-3">
-                <label for="writer" class="form-label" style="width: 70px;">작성자 : </label>
-                <input type="text" name="writer">
-                <button type="submit" class="btn btn-warning">리뷰 등록</button><br/>
-                <label for="texts" class="form-label" style="width: 70px;">리뷰 내용 : </label>
-                <textarea rows="3" name="texts" cols="50"></textarea>
+                <div class="d-flex">
+                    <label for="star" class="form-label">별점 : </label>
+                    <div class="star-ratings">
+                        <div class="star-ratings-base">
+                            <span>★★★★★
+                                <span class="star-rating-fills">★★★★★</span>
+                                <input name="star" type="range" oninput="drawStar(this)" value="5" step="1" min="1" max="5" class="star-input">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <label for="writer" class="form-label">작성자 : </label>
+                <input type="text" name="writer"><br/>
+                <label for="texts" class="form-label">내용 : </label>
+                <textarea rows="2" name="texts" cols="50"></textarea><br/>
+
+                <button type="submit" class="btn btn-warning" style="margin-left: 60px;">리뷰 등록</button><br/>
             </div>
         </form>
         <br/><hr/><br/>
@@ -31,6 +43,7 @@
                 <th>작성자</th>
                 <th>리뷰 내용</th>
                 <th>작성일</th>
+                <th>별점</th>
             </tr>
             </thead>
             <tbody>
@@ -39,12 +52,60 @@
                     <th>{{writer}}</th>
                     <th>{{texts}}</th>
                     <th>{{createdAt}}</th>
+                    <th>{{star}}</th>
                 </tr>
             {{/reviewList}}
             </tbody>
         </table>
     </div>
 
+    <script>
+        function drawStar(target) {
+            document.getElementsByClassName('star-rating-fills').item(0).style.width = target.value * 20 + "%";
+        }
+    </script>
 </div>
+
+<style>
+    .star-ratings {
+        margin-left: 10px;
+        color: #aaa9a9;
+        position: relative;
+        unicode-bidi: bidi-override;
+        width: max-content;
+        -webkit-text-fill-color: transparent;
+        -webkit-text-stroke-width: 1.3px;
+        -webkit-text-stroke-color: #2b2a29;
+    }
+    .star-ratings-base {
+        z-index: 0;
+        padding: 0;
+        position: relative;
+    }
+    .star-rating-fills {
+        pointer-events: none;
+        position: absolute;
+        color: gold;
+        z-index: 1;
+        display: flex;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        padding: 0;
+        -webkit-text-fill-color: gold;
+    }
+    .star-input {
+        cursor: pointer;
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+    label {
+        width: 60px;
+        text-align: right;
+    }
+</style>
 
 {{>fragments/footer}}

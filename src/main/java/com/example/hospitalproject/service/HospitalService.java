@@ -69,10 +69,6 @@ public class HospitalService {
         return hospitalRepository.findById(id).get();
     }
 
-    public Page<Hospital> findAll(Pageable pageable) {
-        return hospitalRepository.findAll(pageable);
-    }
-
     public Page<Hospital> search(String region, Integer statusCode, String type, String keyword, Pageable pageable) {
         // statusCode, type은 contains가 아니기 때문에 null이 들어오면 조회 안 됨 => 별도의 처리 필요
         if(statusCode != null && !type.equals("")) {

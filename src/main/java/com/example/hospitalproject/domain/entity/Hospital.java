@@ -34,7 +34,11 @@ public class Hospital {
     @ColumnDefault(value = "0")
     private Integer reviewCnt;
 
-    public void addReview() {
+    @ColumnDefault(value = "0")
+    private Integer starSum;
+
+    public void addReview(Integer star) {
         reviewCnt ++;
+        starSum += star;
     }
 }

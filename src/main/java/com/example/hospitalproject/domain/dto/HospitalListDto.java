@@ -13,7 +13,8 @@ public class HospitalListDto {
     private String phone;               // 소재지 전화
     private String roadNameAddress;     // 도로명 주소
     private String type;                // 업태 구분 명
-    private Integer reviewCnt;
+    private Integer reviewCnt;          // 리뷰 개수
+    private String starAvg;            // 별점 총합
 
     public static HospitalListDto of(Hospital hospital) {
         String status = "";
@@ -28,6 +29,7 @@ public class HospitalListDto {
         }
 
         return new HospitalListDto(hospital.getId(), hospital.getName(), status,
-                hospital.getPhone(), hospital.getRoadNameAddress(), hospital.getType(), hospital.getReviews().size());
+                hospital.getPhone(), hospital.getRoadNameAddress(), hospital.getType(), hospital.getReviewCnt(),
+                String.format("%.2f", (double)hospital.getStarSum() / hospital.getReviewCnt()));
     }
 }

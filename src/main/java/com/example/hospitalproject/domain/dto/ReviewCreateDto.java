@@ -17,6 +17,7 @@ public class ReviewCreateDto {
 
     private String writer;
     private String texts;
+    private Integer star;
 
     public Review toEntity(Hospital hospital) {
         return Review.builder()
@@ -24,6 +25,7 @@ public class ReviewCreateDto {
                 .texts(texts)
                 .hospital(hospital)
                 .createdAt(LocalDateTime.now())
+                .star(star)
                 .build();
     }
 }

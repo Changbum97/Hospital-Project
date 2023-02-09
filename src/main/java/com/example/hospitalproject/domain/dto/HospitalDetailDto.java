@@ -14,8 +14,10 @@ public class HospitalDetailDto {
     private String roadNameAddress;     // 도로명 주소
     private String type;                // 업태 구분 명
     private Integer employeesCnt;       // 의료인 수
-    private String hasInpatientRoom;   // 입원실 여부
+    private String hasInpatientRoom;    // 입원실 여부
     private Double area;                // 총 면적
+    private Integer reviewCnt;          // 리뷰 개수
+    private String starAvg;             // 별점 평균
 
     public static HospitalDetailDto of(Hospital hospital) {
         String status = "";
@@ -31,6 +33,7 @@ public class HospitalDetailDto {
 
         return new HospitalDetailDto(hospital.getId(), hospital.getName(), status,
                 hospital.getPhone(), hospital.getRoadNameAddress(), hospital.getType(),
-                hospital.getEmployeesCnt(), hospital.getHasInpatientRoom() == true?"보유":"미보유", hospital.getArea());
+                hospital.getEmployeesCnt(), hospital.getHasInpatientRoom() == true?"보유":"미보유", hospital.getArea(),
+                hospital.getReviewCnt(), String.format("%.2f", (double)hospital.getStarSum() / hospital.getReviewCnt()));
     }
 }

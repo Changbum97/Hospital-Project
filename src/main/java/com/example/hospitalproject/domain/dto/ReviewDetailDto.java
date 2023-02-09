@@ -14,9 +14,11 @@ public class ReviewDetailDto {
     private String writer;
     private String texts;
     private String createdAt;
+    private Integer star;
 
     public static ReviewDetailDto of(Review review) {
         return new ReviewDetailDto(review.getWriter(), review.getTexts(),
-                review.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
+                review.getCreatedAt().format(DateTimeFormatter.ofPattern("yy/MM/dd")),
+                review.getStar());
     }
 }
