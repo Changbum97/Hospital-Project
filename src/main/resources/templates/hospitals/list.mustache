@@ -1,9 +1,9 @@
 {{>fragments/header}}
 <div class="row">
     <form align="center" action="/hospitals" method="get" style="height: 40px;">
-        <input type="radio" name="sortByReviewCnt">
-            <label for="sortByReviewCnt">리뷰 많은 순</label>
-        </input>
+        <input type="radio" name="sortBy" value="reviewCnt" id="reviewCnt"> 리뷰 많은 순</input>
+        <input type="radio" name="sortBy" value="starAvg" id="starAvg"> 별점 높은 순</input>
+
         <select name="region" style="height: 100%">
             <option value="">지역</option>
             <option id="서울특별시" value="서울특별시">서울특별시</option>
@@ -107,6 +107,9 @@
         {{#keyword}}
             document.getElementsByName('keyword').item(0).value = '{{keyword}}';
         {{/keyword}}
+        {{#sortBy}}
+            document.getElementById('{{sortBy}}').setAttribute("checked", true);
+        {{/sortBy}}
 
         // 페이지 버튼 출력 처리
         {{#isFirstPage}}
@@ -180,6 +183,9 @@
         {{#keyword}}
             url += "&keyword={{keyword}}"
         {{/keyword}}
+        {{#sortBy}}
+            url += "&sortBy={{sortBy}}"
+        {{/sortBy}}
         return url
     }
 </script>

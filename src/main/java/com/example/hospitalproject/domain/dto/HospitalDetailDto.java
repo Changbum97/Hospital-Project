@@ -34,6 +34,7 @@ public class HospitalDetailDto {
         return new HospitalDetailDto(hospital.getId(), hospital.getName(), status,
                 hospital.getPhone(), hospital.getRoadNameAddress(), hospital.getType(),
                 hospital.getEmployeesCnt(), hospital.getHasInpatientRoom() == true?"보유":"미보유", hospital.getArea(),
-                hospital.getReviewCnt(), String.format("%.2f", (double)hospital.getStarSum() / hospital.getReviewCnt()));
+                hospital.getReviewCnt(),
+                hospital.getStarAvg() == null ? "-" : String.format("%.2f", hospital.getStarAvg()));
     }
 }

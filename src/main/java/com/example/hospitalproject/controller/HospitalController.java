@@ -33,11 +33,16 @@ public class HospitalController {
                          @RequestParam(required = false) Integer statusCode,
                          @RequestParam(defaultValue = "") String type,
                          @RequestParam(defaultValue = "") String keyword,
-                         @RequestParam(defaultValue = "false") Boolean sortByReviewCnt) {
+                         @RequestParam(required = false) String sortBy) {
 
         PageRequest pageable = PageRequest.of(page - 1, 10, Sort.by("id").ascending());
-        if(sortByReviewCnt == true) {
-            pageable = PageRequest.of(page - 1, 10, Sort.by("reviewCnt").descending());
+        if(sortBy != null) {
+            if(sortBy.equals("reviewCnt")) {
+                pageable = PageRequest.of(page - 1, 10, Sort.by("reviewCnt").descending());
+            } else {
+                pageable = PageRequest.of(page - 1, 10, Sort.by("starAvg").descending());
+            }
+            model.addAttribute("sortBy", sortBy);
         }
         Page<Hospital> hospitals = hospitalService.search(region, statusCode, type, keyword, pageable);
         model.addAttribute("cnt", hospitals.getTotalElements());

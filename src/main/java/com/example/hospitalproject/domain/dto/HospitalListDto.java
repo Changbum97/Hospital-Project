@@ -30,6 +30,6 @@ public class HospitalListDto {
 
         return new HospitalListDto(hospital.getId(), hospital.getName(), status,
                 hospital.getPhone(), hospital.getRoadNameAddress(), hospital.getType(), hospital.getReviewCnt(),
-                String.format("%.2f", (double)hospital.getStarSum() / hospital.getReviewCnt()));
+                hospital.getStarAvg() == null ? "-" : String.format("%.2f", hospital.getStarAvg()));
     }
 }
