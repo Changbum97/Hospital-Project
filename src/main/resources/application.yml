@@ -9,15 +9,23 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/likelion-db
+   # url: jdbc:mysql://localhost:3306/likelion-db?rewriteBatchedStatements=true
     username: root
     password: root1234
   # JPA 설정
   jpa:
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.MySQL8Dialect
     database: mysql
     hibernate:
       ddl-auto: create
+    #properties:
+    #  hibernate:
+    #    jdbc:
+    #      batch_size: 120000
+    #      order_inserts: true
+
+
   # PUT, DELETE 가능하게 해줌
   mvc:
     hiddenmethod:

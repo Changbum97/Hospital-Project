@@ -108,6 +108,25 @@ public class HospitalController {
     }
 
     /**
+     * JPA를 사용하여 전체 데이터 하나씩 파싱 후 삽입 => 12만개
+     */
+    @ResponseBody
+    @PostMapping("/jpa/all/v2")
+    public String insertAllByJpaV2() {
+        try {
+            long startTime = System.currentTimeMillis();
+            int successCnt = hospitalService.insertAllDataV2("./original_data/hospital_data.csv");
+            long endTime = System.currentTimeMillis();
+
+            log.info("JPA를 사용한 데이터 파싱 + 삽입 시간 : {}초", (endTime - startTime) / 1000.0);
+            return successCnt + "개 데이터 삽입 성공";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * 삽입된 데이터에서 statusCode, region, type 추출 결과
      * statusCode(상세 영업 코드) => 13(영업중), 2(휴업), 3(폐업), 24(직권폐업)
      * type(업태구분명) => 의원, 치과의원, 보건의료원, 보건진료소, 보건소, 조산원, 보건지소, 한의원

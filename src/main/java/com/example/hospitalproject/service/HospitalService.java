@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class HospitalService {
     private final HospitalRepository hospitalRepository;
     private final HospitalParser hospitalParser;
 
-    // 약 11000초(3시간) 이상 -> @Transcational 사용 후 20초 이내로 시간 단축
+    // 약 11000초(3시간) 이상 -> @Transcational 사용 후 35초 이내로 시간 단축
     @Transactional
     public int insertAllData(String filename) throws IOException {
 
@@ -42,6 +43,29 @@ public class HospitalService {
             }
             successCnt ++;
         }
+
+        return successCnt;
+    }
+
+    public int insertAllDataV2(String filename) throws IOException {
+
+        BufferedReader br = new BufferedReader(new FileReader(filename));
+        br.readLine();      // 첫 줄은 머리말이기 때문에 제외
+
+        int successCnt = 0;
+        String line;
+
+        List<Hospital> hospitals = new ArrayList<>();
+
+        while((line = br.readLine()) != null) {
+            try {
+                hospitals.add(hospitalParser.parse(line));
+            } catch (Exception e) {
+                successCnt --;
+            }
+            successCnt ++;
+        }
+        hospitalRepository.saveAll(hospitals);
 
         return successCnt;
     }
