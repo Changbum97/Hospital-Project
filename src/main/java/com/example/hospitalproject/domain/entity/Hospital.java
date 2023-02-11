@@ -28,7 +28,7 @@ public class Hospital {
     private Boolean hasInpatientRoom;   // 입원실 여부
     private Double area;                // 총 면적
 
-    @OneToMany(mappedBy = "hospital")
+    @OneToMany(mappedBy = "hospital", orphanRemoval = true)
     private List<Review> reviews;
 
     @ColumnDefault(value = "0")

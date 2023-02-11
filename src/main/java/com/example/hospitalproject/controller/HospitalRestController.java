@@ -76,9 +76,7 @@ public class HospitalRestController {
      */
     @PostMapping("/jdbc-template/all")
     public String insertAllByJdbcTemplate() throws IOException {
-        int successCnt = hospitalJdbcTemplateService.insertAll(
-                "./extract_data/queryV2.sql",
-                "./original_data/hospital_data.csv");
+        int successCnt = hospitalJdbcTemplateService.insertAll("./original_data/hospital_data.csv");
         return successCnt + "개 데이터 삽입 성공";
     }
 

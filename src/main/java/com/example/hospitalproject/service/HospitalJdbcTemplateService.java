@@ -16,12 +16,10 @@ public class HospitalJdbcTemplateService {
     private final HospitalDao2 hospitalDao;
     private final HospitalParser hospitalParser;
 
-    public int insertAll(String outputFileName, String inputFileName) throws IOException {
+    public int insertAll(String inputFileName) throws IOException {
 
         BufferedReader br = new BufferedReader(new FileReader(inputFileName));
         br.readLine();      // 첫 줄은 머리말이기 때문에 제외
-
-        BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
 
         String line;
         int successCnt = 0;
