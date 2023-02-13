@@ -19,11 +19,12 @@ spring:
     database: mysql
     hibernate:
       ddl-auto: create
-    #properties:
-    #  hibernate:
-    #    jdbc:
-    #      batch_size: 120000
-    #      order_inserts: true
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 111942
+          order_inserts: true
+          order_updates: true
 
 
   # PUT, DELETE 가능하게 해줌
