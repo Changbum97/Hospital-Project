@@ -11,7 +11,7 @@
 
 ## 약 12만개 데이터 삽입 속도 비교 및 성능 개선
 
-- Driver Manager과 JDBC 사용
+- JDBC 사용 (Driver Manager, 쿼리 실행)
   - insert문 12만개 : 약 30초?
   - insert문 1개 : 약 3초?
 - Jdbc Template 사용
