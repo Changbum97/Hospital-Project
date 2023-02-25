@@ -36,3 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
+### 입출력 파일 ###
+extract_data/
+original_data/
