@@ -13,7 +13,7 @@
 
 - JDBC 사용 (Driver Manager, 쿼리 실행)
   - insert문 12만개 : 약 30초
-  - insert문 1개로 12만개 삽입 : 약 3초
+  - insert문 1개로 데이터 12만개 삽입 : 약 3초
 - Jdbc Template 사용
   - 데이터 파싱 후 하나씩 삽입 : 약 23초
   - Bulk Insert(Batch Size 조정) : 약 15초
