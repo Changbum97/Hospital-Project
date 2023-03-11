@@ -1,6 +1,6 @@
 package com.example.hospitalproject.service;
 
-import com.example.hospitalproject.dao.HospitalDao;
+import com.example.hospitalproject.domain.dao.HospitalDao;
 import com.example.hospitalproject.domain.entity.Hospital;
 import com.example.hospitalproject.parser.MakeSqlFile;
 import lombok.RequiredArgsConstructor;

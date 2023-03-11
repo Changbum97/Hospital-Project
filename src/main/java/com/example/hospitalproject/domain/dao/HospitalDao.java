@@ -1,4 +1,4 @@
-package com.example.hospitalproject.dao;
+package com.example.hospitalproject.domain.dao;
 
 import com.example.hospitalproject.domain.entity.Hospital;
 import org.springframework.stereotype.Component;
@@ -22,9 +22,9 @@ public class HospitalDao {
     public HospitalDao() throws SQLException {
         // 환경변수에서 DB 정보 가져오기
         env = System.getenv();
-        dbHost = env.get("DB_HOST");
-        dbUser = env.get("DB_USER");
-        dbPassword = env.get("DB_PASSWORD");
+        dbHost = env.get("SPRING_DATASOURCE_URL");
+        dbUser = env.get("SPRING_DATASOURCE_USERNAME");
+        dbPassword = env.get("SPRING_DATASOURCE_PASSWORD");
 
         // DB 연결
         conn = DriverManager.getConnection(dbHost, dbUser, dbPassword);

@@ -1,4 +1,4 @@
-package com.example.hospitalproject.dao;
+package com.example.hospitalproject.domain.dao;
 
 import com.example.hospitalproject.domain.entity.Hospital;
 import lombok.RequiredArgsConstructor;
