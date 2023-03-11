@@ -81,12 +81,12 @@ public class MakeSqlFile {
     }
 
     /*
-    INSERT INTO `likelion-db`.`hospital` (`id`,`name`,`status_code`,`phone`,`road_name_address`,`type`,`employees_cnt`, `has_inpatient_room`, `area`)
+    INSERT INTO `hospitals`.`hospital` (`id`,`name`,`status_code`,`phone`,`road_name_address`,`type`,`employees_cnt`, `has_inpatient_room`, `area`)
     VALUES (1,'효치과의원', 13, '062-515-2875', '광주광역시 북구 동문대로 24, 3층 (풍향동)', '치과의원', 1, 'true', 52.29);
     이런 식의 쿼리를 만들어야 함
     */
     public String makeQueryV1(Hospital hospital) {
-        String query = "INSERT INTO `likelion-db`.`hospital` (`id`,`name`,`status_code`,`phone`,`road_name_address`,`type`,`employees_cnt`, `has_inpatient_room`, `area`) VALUES ";
+        String query = "INSERT INTO `hospitals`.`hospital` (`id`,`name`,`status_code`,`phone`,`road_name_address`,`type`,`employees_cnt`, `has_inpatient_room`, `area`) VALUES ";
         query += String.format("(%d, '%s', %d, '%s', '%s', '%s', %d, %b, %f);\n",
                 hospital.getId(),
                 hospital.getName(),

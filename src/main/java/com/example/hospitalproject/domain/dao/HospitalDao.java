@@ -59,20 +59,20 @@ public class HospitalDao {
     }
 
     public List<Hospital> findAll() throws SQLException {
-        PreparedStatement ps = conn.prepareStatement("SELECT * FROM `likelion-db`.hospital;");
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM `hospitals`.hospital;");
         ResultSet rs = ps.executeQuery();
         return resultSetToList(rs);
     }
 
     public List<Hospital> findByAddress(String keyword) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement("SELECT * FROM `likelion-db`.hospital WHERE road_name_address LIKE ?;");
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM `hospitals`.hospital WHERE road_name_address LIKE ?;");
         ps.setString(1, '%'+keyword+'%');
         ResultSet rs = ps.executeQuery();
         return resultSetToList(rs);
     }
 
     public void deleteAll() throws SQLException {
-        PreparedStatement ps = conn.prepareStatement("DELETE FROM `likelion-db`.hospital");
+        PreparedStatement ps = conn.prepareStatement("DELETE FROM `hospitals`.hospital");
         ps.executeUpdate();
     }
 

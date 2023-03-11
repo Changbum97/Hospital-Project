@@ -4,14 +4,16 @@ import com.example.hospitalproject.domain.entity.Hospital;
 import com.example.hospitalproject.service.HospitalJdbcService;
 import com.example.hospitalproject.service.HospitalJdbcTemplateService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+@Slf4j
 @RestController
-@RequestMapping("/api/hospitals")
+@RequestMapping("/hospitals/api")
 @RequiredArgsConstructor
 public class HospitalRestController {
 
@@ -27,6 +29,7 @@ public class HospitalRestController {
         int successCnt = hospitalJdbcService.insertAllDataV1(
                 "./extract_data/queryV1.sql",
                 "./original_data/hospital_data.csv");
+
         return successCnt + "개 데이터 삽입 성공";
     }
 
