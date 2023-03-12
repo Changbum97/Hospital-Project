@@ -77,7 +77,7 @@ public class HospitalRestController {
     /**
      * CSV 파일을 읽어와 한 줄 씩 파싱 후 JDBC Template을 사용하여 하나씩 전체 데이터 삽입
      */
-    @PostMapping("/jdbc-template/all")
+    @PostMapping("/jdbc-template/all/v1")
     public String insertAllByJdbcTemplate() throws IOException {
         int successCnt = hospitalJdbcTemplateService.insertAll("./original_data/hospital_data.csv");
         return successCnt + "개 데이터 삽입 성공";
@@ -89,6 +89,15 @@ public class HospitalRestController {
     @PostMapping("/jdbc-template/all/v2")
     public String insertAllByJdbcTemplateV2() throws IOException {
         int successCnt = hospitalJdbcTemplateService.batchInsertAll("./original_data/hospital_data.csv");
+        return successCnt + "개 데이터 삽입 성공";
+    }
+
+    /**
+     * CSV 파일을 읽어와 한 줄 씩 파싱 후 JDBC Template을 사용하여 한번에 전체 데이터 삽입 + @Transactional 적용
+     */
+    @PostMapping("/jdbc-template/all/v3")
+    public String insertAllByJdbcTemplateV3() throws IOException {
+        int successCnt = hospitalJdbcTemplateService.batchInsertAllWithTransaction("./original_data/hospital_data.csv");
         return successCnt + "개 데이터 삽입 성공";
     }
 

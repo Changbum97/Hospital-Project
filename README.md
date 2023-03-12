@@ -21,12 +21,26 @@
     - POST /api/hospitals/jdbc/all/v2
       - csv -> sql (한 개의 입력 쿼리로 변환) -> sql 실행 (한 개의 쿼리로 12만개 데이터 삽입)
       - 약 3.8초
+    - GET /api/hospitals/jdbc/all : 전체 조회
+    - GET /api/hospitals/jdbc/{keyword} : 주소에 keyword가 들어간 병원 조회
+    - DELETE /api/hospitals/jdbc/all : 전체 삭제
 - Jdbc Template 사용
-  - 
-- Jdbc Template 사용
-  - 데이터 파싱 후 하나씩 삽입 : 약 23초
-  - Bulk Insert(Batch Size 조정) : 약 15초
-  - @Transactional 적용 + Bulk Insert : 약 7초
+  - JdbcTemplate을 사용하여 데이터 처리
+  - HospitalRestController, HospitalJdbcTemplateService, HospitalDao2 사용
+  - End Point
+    - POST /api/hospitals/jdbc-template/all/v1
+      - csv -> 한 줄씩 파싱 -> 하나씩 삽입
+      - 약 23초
+    - POST /api/hospitals/jdbc-template/all/v2
+      - Bulk Insert(Batch Size 조정) 
+      - csv -> 한 줄씩 파싱 -> 한번에 삽입
+      - 약 17초
+    - POST /api/hospitals/jdbc-template/all/v3
+      - Bulk Insert + @Transactional 적용
+      - 약 7초
+    - GET /api/hospitals/jdbc-template/all : 전체 조회
+    - GET /api/hospitals/jdbc-template/{keyword} : 주소에 keyword가 들어간 병원 조회
+    - DELETE /api/hospitals/jdbc-template/all : 전체 삭제
 - Spring Jpa 사용
   - 데이터 파싱 후 하나씩 삽입 : 약 3시간 이상
   - @Transactional 적용 : 약 35초

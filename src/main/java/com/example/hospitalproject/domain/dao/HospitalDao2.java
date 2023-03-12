@@ -6,8 +6,8 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
@@ -29,7 +29,6 @@ public class HospitalDao2 {
                 hospital.getHasInpatientRoom(), hospital.getArea());
     }
 
-    //@Transactional
     public void insertAll(List<Hospital> hospitals) {
         String query = "INSERT INTO `hospitals`.`hospital` (id, name, status_code, phone, road_name_address," +
                 "type, employees_cnt, has_inpatient_room, area)" +
