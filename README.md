@@ -9,15 +9,20 @@
   - 검색(리스트에서 선택) : 지역, 영업상태, 업태구분명
   - 정렬 : 리뷰 많은 순, 별점 높은 순
 
-## 약 12만개 데이터 삽입 속도 비교 및 성능 개선 (EndPoint)
+## 약 12만개 데이터 삽입 속도 비교 및 성능 개선 (End Point)
 
-- JDBC 사용 (Driver Manager, 쿼리 실행)
-  - POST /hopitals/api/jdbc/all/v1
-    - csv -> sql
-    - sql 실행 (12만개의 입력 쿼리로 변환)
-- JDBC 사용 (Driver Manager, 쿼리 실행)
-  - insert문 12만개 : 약 30초
-  - insert문 1개로 데이터 12만개 삽입 : 약 3초
+- JDBC 사용
+  - Driver Manager로 DB와 연결, 쿼리를 직접 실행하는 방식
+  - HospitalRestController, HospitalJdbcService, HospitalDao 사용
+  - End Point
+    - POST /api/hospitals/jdbc/all/v1
+      - csv -> sql (12만개의 입력 쿼리로 변환) -> sql 실행
+      - 약 37초
+    - POST /api/hospitals/jdbc/all/v2
+      - csv -> sql (한 개의 입력 쿼리로 변환) -> sql 실행 (한 개의 쿼리로 12만개 데이터 삽입)
+      - 약 3.8초
+- Jdbc Template 사용
+  - 
 - Jdbc Template 사용
   - 데이터 파싱 후 하나씩 삽입 : 약 23초
   - Bulk Insert(Batch Size 조정) : 약 15초
