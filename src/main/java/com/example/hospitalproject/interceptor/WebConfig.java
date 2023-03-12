@@ -10,6 +10,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TimeLogInterceptor())
                 .order(1)
-                .addPathPatterns("/hospitals/**");
+                .addPathPatterns("/**");
     }
 }

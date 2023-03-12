@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/hospitals/api")
+@RequestMapping("/api/hospitals")
 @RequiredArgsConstructor
 public class HospitalRestController {
 
