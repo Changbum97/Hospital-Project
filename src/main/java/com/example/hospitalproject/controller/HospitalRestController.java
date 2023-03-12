@@ -21,7 +21,7 @@ public class HospitalRestController {
     private final HospitalJdbcTemplateService hospitalJdbcTemplateService;
 
     /**
-     * CSV 파일을 읽어와 한 줄 씩 쿼리로 변환 후 queryV1에 저장 후
+     * CSV 파일을 읽어와 한 줄 씩 쿼리로 변환 후 queryV1에 저장
      * JDBC를 사용하여 12만개의 삽입 쿼리 실행
      */
     @PostMapping("/jdbc/all/v1")
@@ -34,7 +34,7 @@ public class HospitalRestController {
     }
 
     /**
-     * CSV 파일을 읽어와 한 줄 씩 쿼리로 변환 후 queryV2에 저장 후
+     * CSV 파일을 읽어와 한 줄 씩 쿼리로 변환 후 queryV2에 저장
      * JDBC를 사용하여 1개의 삽입 쿼리로 12만개 데이터 한번에 삽입
      */
     @PostMapping("/jdbc/all/v2")
@@ -43,7 +43,7 @@ public class HospitalRestController {
                 "./extract_data/queryV2.sql",
                 "./original_data/hospital_data.csv");
 
-        return "데이터 삽입 성공";
+        return "전체 데이터 삽입 성공";
     }
 
     /**

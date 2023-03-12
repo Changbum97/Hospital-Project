@@ -19,7 +19,7 @@ public class HospitalDao2 {
     private final JdbcTemplate jdbcTemplate;
 
     public void insertOne(Hospital hospital) {
-        String query = "INSERT INTO `likelion-db`.`hospital` (id, name, status_code, phone, road_name_address," +
+        String query = "INSERT INTO `hospitals`.`hospital` (id, name, status_code, phone, road_name_address," +
                 "type, employees_cnt, has_inpatient_room, area)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);" ;  // 9개 컬럼
 
@@ -31,7 +31,7 @@ public class HospitalDao2 {
 
     //@Transactional
     public void insertAll(List<Hospital> hospitals) {
-        String query = "INSERT INTO `likelion-db`.`hospital` (id, name, status_code, phone, road_name_address," +
+        String query = "INSERT INTO `hospitals`.`hospital` (id, name, status_code, phone, road_name_address," +
                 "type, employees_cnt, has_inpatient_room, area)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)" ;  // 9개 컬럼
 
@@ -58,20 +58,20 @@ public class HospitalDao2 {
     }
 
     public List<Hospital> findAll() {
-        String query = "SELECT * FROM `likelion-db`.`hospital`;";
+        String query = "SELECT * FROM `hospitals`.`hospital`;";
         List<Hospital> hospitals = jdbcTemplate.query(query, hospitalMapper);
         return hospitals;
     }
 
     public List<Hospital> findByAddress(String keyword) {
-        String query = "SELECT * FROM `likelion-db`.`hospital` WHERE road_name_address LIKE ?;";
+        String query = "SELECT * FROM `hospitals`.`hospital` WHERE road_name_address LIKE ?;";
         List<Hospital> hospitals = jdbcTemplate.query(query, hospitalMapper, '%'+keyword+'%');
         return hospitals;
 
     }
 
     public void deleteAll() {
-        String query = "DELETE FROM `likelion-db`.`hospital`";
+        String query = "DELETE FROM `hospitals`.`hospital`";
         jdbcTemplate.update(query);
     }
 

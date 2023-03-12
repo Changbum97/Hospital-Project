@@ -54,7 +54,7 @@ public class MakeSqlFile {
         br.readLine();      // 첫 줄은 머리말이기 때문에 제외
 
         BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
-        bw.write("INSERT INTO `likelion-db`.`hospital` (`id`,`name`,`status_code`,`phone`,`road_name_address`,`type`,`employees_cnt`, `has_inpatient_room`, `area`) VALUES ");
+        bw.write("INSERT INTO `hospitals`.`hospital` (`id`,`name`,`status_code`,`phone`,`road_name_address`,`type`,`employees_cnt`, `has_inpatient_room`, `area`) VALUES ");
 
         String nowLine = br.readLine();
         String nextLine = br.readLine();
