@@ -8,8 +8,10 @@ spring:
   # DB 연결 정보
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://aws-freetier.cjjpwgrapvvh.ap-northeast-2.rds.amazonaws.com:3306/hospitals
+    url: jdbc:mysql://localhost:3306/hospitals
     # username, password는 환경변수로 등록
+    username: root
+    password: root1234
   # JPA 설정
   jpa:
     show-sql: false
@@ -18,12 +20,12 @@ spring:
     hibernate:
       ddl-auto: create
     # 배치 사이즈 조정
-    properties:
-      hibernate:
-        jdbc:
-          batch_size: 111942
-          order_inserts: true
-          order_updates: true
+    #properties:
+     # hibernate:
+      #  jdbc:
+       #   batch_size: 111942
+        #  order_inserts: true
+         # order_updates: true
 
   # PUT, DELETE 가능하게 해줌
   mvc:
