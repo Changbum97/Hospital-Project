@@ -102,6 +102,15 @@ public class HospitalRestController {
     }
 
     /**
+     * CSV 파일을 읽어와 한 줄 씩 파싱 후 JDBC Template을 사용하여 한번에 전체 데이터 삽입 + @Transactional 적용 + 병렬 처리 적용
+     */
+    @PostMapping("/jdbc-template/all/v4")
+    public String insertAllByJdbcTemplateV4() throws IOException {
+        int successCnt = hospitalJdbcTemplateService.batchInsertAllWithTransactionByParallel("./original_data/hospital_data.csv");
+        return successCnt + "개 데이터 삽입 성공";
+    }
+
+    /**
      * JDBC Template을 사용하여 전체 병원 리스트 조회
      */
     @GetMapping("/jdbc-template/all")

@@ -38,6 +38,9 @@
     - POST /api/hospitals/jdbc-template/all/v3
       - Bulk Insert + @Transactional 적용
       - 약 7초
+    - POST /api/hospitals/jdbc-template/all/v3
+      - Bulk Insert + @Transactional 적용 + 병렬 처리 적용
+      - 약 6초
     - GET /api/hospitals/jdbc-template/all : 전체 조회
     - GET /api/hospitals/jdbc-template/{keyword} : 주소에 keyword가 들어간 병원 조회
     - DELETE /api/hospitals/jdbc-template/all : 전체 삭제

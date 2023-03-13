@@ -76,6 +76,33 @@ public class HospitalJdbcTemplateService {
         return hospitals.size();
     }
 
+    @Transactional
+    public int batchInsertAllWithTransactionByParallel(String inputFileName) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(inputFileName));
+        br.readLine();      // 첫 줄은 머리말이기 때문에 제외
+
+        String line;
+        List<Hospital> hospitals = new ArrayList<>();
+
+        while((line = br.readLine()) != null) {
+            try {
+                Hospital hospital = hospitalParser.parse(line);
+                hospitals.add(hospital);
+            }
+            catch (Exception e) { }
+        }
+
+        hospitals.stream()
+                .parallel()
+                .forEach(hospital -> {
+                    try {
+                        hospitalDao.insertOne(hospital);
+                    } catch (Exception e) { }
+                });
+
+        return hospitals.size();
+    }
+
     public List<Hospital> findAll() {
         return hospitalDao.findAll();
     }

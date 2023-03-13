@@ -28,6 +28,7 @@ public class HospitalParser {
                 .hasInpatientRoom( (split[32].equals("0")) ? false : true )
                 // 입원실이 0개이면 false, 0이 아니면 true
                 .area(Double.valueOf(split[33]))        // 총 면적
+                .reviewCnt(0)                           // 리뷰 (default: 0)
                 .build();
     }
 }
