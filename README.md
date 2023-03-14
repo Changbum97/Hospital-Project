@@ -2,7 +2,7 @@
 
 ## 구현 기능
 
-- 전국 병원 데이터 약 12만개 데이터 수집 (CSV)
+- 전국 병원 데이터 약 12만개 데이터 수집 (CSV 파일)
 - 데이터 파싱 후 DB에 삽입
 - 전체 데이터 리스트 조회 기능 + 페이징 처리 구현
 - 리뷰 작성 기능 + 별점 기능 구현
@@ -27,7 +27,7 @@
 - Spring Boot DevTools
 - Spring Data Jpa, MySQL
 - Lombok
-- Mustache
+- Mustache, Bootstrap 5.2.3
 
 ## 결과
 
