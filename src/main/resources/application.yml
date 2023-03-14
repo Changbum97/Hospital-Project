@@ -3,15 +3,16 @@ server:
   servlet:
     encoding:
       force-response: true
+  port: 8081
 
 spring:
   # DB 연결 정보
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hospitals
-    # username, password는 환경변수로 등록
-    username: root
-    password: root1234
+    # url, username, password는 환경변수로 등록
+    url: url
+    username: username
+    password: password
     # 배치 사이즈 조정에 필요
     #hikari:
     #  data-source-properties:
@@ -23,7 +24,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     # 배치 사이즈 조정
     #properties:
     #  hibernate:
