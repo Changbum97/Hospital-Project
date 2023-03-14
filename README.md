@@ -1,5 +1,7 @@
 # 전국 병원 정보 프로젝트
 
+## 구현 기능
+
 - 전국 병원 데이터 약 12만개 데이터 수집 (CSV)
 - 데이터 파싱 후 DB에 삽입
 - 전체 데이터 리스트 조회 기능 + 페이징 처리 구현
@@ -9,6 +11,23 @@
   - 검색(리스트에서 선택) : 지역, 영업상태, 업태구분명
   - 정렬 : 리뷰 많은 순, 별점 높은 순
 - Interceptor를 통해 각각의 요청이 걸린 시간을 log로 출력
+
+## 개발 환경
+
+- Language: JAVA 11
+- Framework: Springboot 2.7.8
+- DB: MySQL 8.0
+- Build: Gradle 7.6
+- Server: AWS EC2
+- Deploy: Docker
+
+## 라이브러리
+
+- Spring Boot Web
+- Spring Boot DevTools
+- Spring Data Jpa, MySQL
+- Lombok
+- Mustache
 
 ## 약 12만개 데이터 삽입 속도 비교 및 성능 개선 (End Point)
 
