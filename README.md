@@ -31,7 +31,7 @@
 
 ## 결과
 
-
+- http://ec2-43-200-173-234.ap-northeast-2.compute.amazonaws.com:8081/hospitals
 
 ## 약 12만개 데이터 삽입 속도 비교 및 성능 개선 (End Point)
 
