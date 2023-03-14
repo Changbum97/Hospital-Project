@@ -89,17 +89,13 @@ public class HospitalController {
     }
 
     /**
-     * JPA를 사용하여 전체 데이터 하나씩 파싱 후 삽입 => 12만개 30초
+     * JPA를 사용하여 전체 데이터 하나씩 파싱 후 삽입
      */
     @ResponseBody
-    @PostMapping("/jpa/all")
+    @PostMapping("/jpa/all/v1")
     public String insertAllByJpa() {
         try {
-            long startTime = System.currentTimeMillis();
             int successCnt = hospitalService.insertAllData("./original_data/hospital_data.csv");
-            long endTime = System.currentTimeMillis();
-
-            log.info("JPA를 사용한 데이터 파싱 + 삽입 시간 : {}초", (endTime - startTime) / 1000.0);
             return successCnt + "개 데이터 삽입 성공";
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,17 +104,28 @@ public class HospitalController {
     }
 
     /**
-     * JPA를 사용하여 전체 데이터 하나씩 파싱 후 삽입 => 12만개
+     * JPA를 사용하여 전체 데이터 하나씩 파싱 후 삽입 + @Transactional
      */
     @ResponseBody
     @PostMapping("/jpa/all/v2")
     public String insertAllByJpaV2() {
         try {
-            long startTime = System.currentTimeMillis();
-            int successCnt = hospitalService.insertAllDataV2("./original_data/hospital_data.csv");
-            long endTime = System.currentTimeMillis();
+            int successCnt = hospitalService.insertAllDataWithTransaction("./original_data/hospital_data.csv");
+            return successCnt + "개 데이터 삽입 성공";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-            log.info("JPA를 사용한 데이터 파싱 + 삽입 시간 : {}초", (endTime - startTime) / 1000.0);
+    /**
+     * JPA를 사용하여 전체 데이터 파싱 후 한번에 삽입
+     */
+    @ResponseBody
+    @PostMapping("/jpa/all/v3")
+    public String insertAllByJpaV3() {
+        try {
+            int successCnt = hospitalService.insertAllDataV3("./original_data/hospital_data.csv");
             return successCnt + "개 데이터 삽입 성공";
         } catch (Exception e) {
             e.printStackTrace();

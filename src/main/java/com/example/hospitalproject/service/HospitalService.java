@@ -24,8 +24,6 @@ public class HospitalService {
     private final HospitalRepository hospitalRepository;
     private final HospitalParser hospitalParser;
 
-    // 약 11000초(3시간) 이상 -> @Transcational 사용 후 35초 이내로 시간 단축
-    @Transactional
     public int insertAllData(String filename) throws IOException {
 
         BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -47,7 +45,30 @@ public class HospitalService {
         return successCnt;
     }
 
-    public int insertAllDataV2(String filename) throws IOException {
+    @Transactional
+    public int insertAllDataWithTransaction(String filename) throws IOException {
+
+        BufferedReader br = new BufferedReader(new FileReader(filename));
+        br.readLine();      // 첫 줄은 머리말이기 때문에 제외
+
+        int successCnt = 0;
+        String line;
+
+        while((line = br.readLine()) != null) {
+            try {
+                Hospital hospital = hospitalParser.parse(line);
+                hospitalRepository.save(hospital);
+            } catch (Exception e) {
+                successCnt --;
+            }
+            successCnt ++;
+        }
+
+        return successCnt;
+    }
+
+    @Transactional
+    public int insertAllDataV3(String filename) throws IOException {
 
         BufferedReader br = new BufferedReader(new FileReader(filename));
         br.readLine();      // 첫 줄은 머리말이기 때문에 제외

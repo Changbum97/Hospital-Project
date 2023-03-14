@@ -38,14 +38,26 @@
     - POST /api/hospitals/jdbc-template/all/v3
       - Bulk Insert + @Transactional 적용
       - 약 7초
-    - POST /api/hospitals/jdbc-template/all/v3
+    - POST /api/hospitals/jdbc-template/all/v4
       - Bulk Insert + @Transactional 적용 + 병렬 처리 적용
       - 약 6초
     - GET /api/hospitals/jdbc-template/all : 전체 조회
     - GET /api/hospitals/jdbc-template/{keyword} : 주소에 keyword가 들어간 병원 조회
     - DELETE /api/hospitals/jdbc-template/all : 전체 삭제
 - Spring Jpa 사용
-  - 데이터 파싱 후 하나씩 삽입 : 약 3시간 이상
-  - @Transactional 적용 : 약 35초
-  - saveAll 적용 : 약 25초
-  - Batch Size 조정 : 약 30초
+  - Spring Jpa를 사용하여 데이터 처리 + 화면 출력
+  - HospitalController, HospitalService, HospitalRepository 사용
+  - POST /hospitals/jpa/all/v1
+    - csv 파일을 한 줄 씩 읽고 파싱 -> 하나씩 DB에 삽입
+    - 약 
+  - POST /hospitals/jpa/all/v2
+    - csv 파일을 한 줄 씩 읽고 파싱 -> 하나씩 DB에 삽입 + @Transactional 적용
+    - 약 34초
+  - POST /hospitals/jpa/all/v3
+    - csv 파일을 파싱 -> saveAll()로 한번에 DB에 삽입 + @Transactional 적용
+    - 약 32초
+    - + application.yml에서 batch size 조정 => 약 22초
+  - GET /hospitals : 전체 조회 리스트 페이지, 페이징 추가, 검색 기능 추가
+  - GET /hospitals/{hospitalId} : 병원 한 개 조회 페이지, 해당 병원에 달린 리뷰 조회 가능, 리뷰 추가 가능
+  - POST /hospitals/{hospitalId}/reviews : 해당 병원에 리뷰 추가
+  - GET /hospitals/extract : 원본 파일에서 statusCode, region, type 추출
