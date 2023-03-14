@@ -117,16 +117,34 @@
             document.getElementById('previousPage').className = "page-item active readonly";
             document.getElementById('nowPage').className = "page-item";
             document.getElementById('previousPageLink').textContent = 1;
-            document.getElementById('nowPageLink').textContent = 2;
-            document.getElementById('nextPageLink').textContent = 3;
+
+            if ({{lastPage}} >= 2) {
+                document.getElementById('nowPageLink').textContent = 2;
+            } else {
+                document.getElementById('nowPageLink').className = 'hidden';
+                document.getElementById('lastPageLink').className = "page-link disabled";
+            }
+
+            if ({{lastPage}} >= 3) {
+                document.getElementById('nextPageLink').textContent = 3;
+            } else {
+                document.getElementById('nextPageLink').className = 'hidden';
+            }
         {{/isFirstPage}}
         {{#isLastPage}}
             document.getElementById('lastPageLink').className = "page-link disabled";
             document.getElementById('nextPage').className = "page-item active readonly";
             document.getElementById('nowPage').className = "page-item";
+
             document.getElementById('previousPageLink').textContent = {{nowPage}} - 2;
             document.getElementById('nowPageLink').textContent = {{nowPage}} - 1;
             document.getElementById('nextPageLink').textContent = {{nowPage}};
+
+            if ({{nowPage}} == 2) {
+                document.getElementById('previousPageLink').className = 'hidden';
+            document.getElementById('previousPageLink').textContent = "";
+            }
+
         {{/isLastPage}}
         {{^isFirstPage}}
             {{^isLastPage}}
