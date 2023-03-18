@@ -84,4 +84,7 @@
   - GET /hospitals : 전체 조회 리스트 페이지, 페이징 추가, 검색 기능 추가
   - GET /hospitals/{hospitalId} : 병원 한 개 조회 페이지, 해당 병원에 달린 리뷰 조회 가능, 리뷰 추가 가능
   - POST /hospitals/{hospitalId}/reviews : 해당 병원에 리뷰 추가
-  - GET /hospitals/extract : 원본 파일에서 statusCode, region, type 추출
+  - GET /hospitals/extract
+    - 원본 파일에서 statusCode, city, type 추출
+    - city는 큰 지역(서울, 경기도, 강원도, ...)과 작은 지역(강남구, 수원시, 평창군, ...)으로 구분 후 DB에 저장
+    - DB에 저장된 city는 지역 검색에 사용
