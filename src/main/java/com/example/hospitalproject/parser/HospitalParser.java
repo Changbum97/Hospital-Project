@@ -8,6 +8,10 @@ public class HospitalParser {
 
     public Hospital parse(String input) {
 
+        // 띄어쓰기 2개 제거
+        while(input.contains("  ")) {
+            input = input.replaceAll("  ", " ");
+        }
         // CSV에서는 값이 있으면 ""로 감싸고, 값이 없으면 ""가 없기 때문에 맞춰주는 작업
         while(input.contains(",,")) {
             input = input.replace(",,", ",\"\",");

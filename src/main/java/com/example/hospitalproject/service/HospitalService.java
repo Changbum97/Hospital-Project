@@ -103,8 +103,12 @@ public class HospitalService {
             types.add(hospital.getType());
 
             String[] split = hospital.getRoadNameAddress().split(" ");
-            if(split.length >= 1) {
-                regions.add(split[0]);
+            if(split.length >= 2) {
+                regions.add(split[0] + " " + split[1]);
+                if (split[1].equals("")) {
+                    System.out.println(split[0] + " " + split[1] + ": " + hospital.getId());
+
+                }
             }
         }
         return new ExtractDto(statusCodes, regions, types);
