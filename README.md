@@ -73,7 +73,7 @@
   - HospitalController, HospitalService, HospitalRepository 사용
   - POST /hospitals/jpa/all/v1
     - csv 파일을 한 줄 씩 읽고 파싱 -> 하나씩 DB에 삽입
-    - 약 3시간
+    - 3시간 이상 
   - POST /hospitals/jpa/all/v2
     - csv 파일을 한 줄 씩 읽고 파싱 -> 하나씩 DB에 삽입 + @Transactional 적용
     - 약 34초
