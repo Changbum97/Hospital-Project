@@ -46,21 +46,21 @@
                 <th>영업상태</th>
                 <th>주소</th>
                 <th>전화</th>
-                <th>리뷰</th>
-                <th>별점</th>
+                <th>리뷰 개수</th>
+                <th>별점 평균</th>
             </tr>
             </thead>
             <tbody>
             {{#hospitals}}
                 <tr onclick="location.href='/hospitals/{{id}}'">
                     <th style="width: 5%">{{id}}</th>
-                    <th style="width: 10%">{{type}}</th>
-                    <th style="width: 15%">{{name}}</th>
-                    <th style="width: 10%">{{status}}</th>
+                    <th style="width: 8%">{{type}}</th>
+                    <th style="width: 17%">{{name}}</th>
+                    <th style="width: 7%">{{status}}</th>
                     <th style="width: 35%">{{roadNameAddress}}</th>
-                    <th style="width: 15%">{{phone}}</th>
-                    <th style="width: 5%">{{reviewCnt}}</th>
-                    <th style="width: 5%">{{starAvg}}</th>
+                    <th style="width: 13%">{{phone}}</th>
+                    <th style="width: 7%">{{reviewCnt}}</th>
+                    <th style="width: 7%">{{starAvg}}</th>
                 </tr>
             {{/hospitals}}
             </tbody>
