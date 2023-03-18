@@ -133,7 +133,7 @@ public class HospitalService {
         }
 
         // sortedRegions, states를 DB에 저장
-        cityRepository.save(City.builder().region("전체").state("전체").build());
+        cityRepository.save(City.builder().region("큰 도시").state("작은 도시").build());
         for (String region : sortedRegions) {
             cityRepository.save(City.builder().region(region).state("전체").build());
 
@@ -150,7 +150,6 @@ public class HospitalService {
             }
         }
 
-
         return new ExtractDto(statusCodes, sortedRegions, states, types);
     }
 
@@ -158,20 +157,20 @@ public class HospitalService {
         return hospitalRepository.findById(id).get();
     }
 
-    public Page<Hospital> search(String region, Integer statusCode, String type, String keyword, Pageable pageable) {
+    public Page<Hospital> search(String region, String state, Integer statusCode, String type, String keyword, Pageable pageable) {
         // statusCode, type은 contains가 아니기 때문에 null이 들어오면 조회 안 됨 => 별도의 처리 필요
         if(statusCode != null && !type.equals("")) {
-            return hospitalRepository.findByRoadNameAddressContainsAndStatusCodeAndTypeAndNameContains(
-                    region, statusCode, type, keyword, pageable);
+            return hospitalRepository.findByRoadNameAddressContainsAndRoadNameAddressContainsAndStatusCodeAndTypeAndNameContains(
+                    region, state, statusCode, type, keyword, pageable);
         } else if(statusCode == null && !type.equals("")) {
-            return hospitalRepository.findByRoadNameAddressContainsAndTypeAndNameContains(
-                    region, type, keyword, pageable);
+            return hospitalRepository.findByRoadNameAddressContainsAndRoadNameAddressContainsAndTypeAndNameContains(
+                    region, state, type, keyword, pageable);
         } else if(statusCode != null && type.equals("")) {
-            return hospitalRepository.findByRoadNameAddressContainsAndStatusCodeAndNameContains(
-                    region, statusCode, keyword, pageable);
+            return hospitalRepository.findByRoadNameAddressContainsAndRoadNameAddressContainsAndStatusCodeAndNameContains(
+                    region, state, statusCode, keyword, pageable);
         } else {
-            return hospitalRepository.findByRoadNameAddressContainsAndNameContains(
-                    region, keyword, pageable);
+            return hospitalRepository.findByRoadNameAddressContainsAndRoadNameAddressContainsAndNameContains(
+                    region, state, keyword, pageable);
         }
     }
 }

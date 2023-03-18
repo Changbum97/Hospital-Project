@@ -4,25 +4,9 @@
         <input type="radio" name="sortBy" value="reviewCnt" id="reviewCnt"> 리뷰 많은 순</input>
         <input type="radio" name="sortBy" value="starAvg" id="starAvg"> 별점 높은 순</input>
 
-        <select name="region" style="height: 100%">
-            <option value="">지역</option>
-            <option id="서울특별시" value="서울특별시">서울특별시</option>
-            <option id="경기도" value="경기도">경기도</option>
-            <option id="강원도" value="강원도">강원도</option>
-            <option id="경상남도" value="경상남도">경상남도</option>
-            <option id="경상북도" value="경상북도">경상북도</option>
-            <option id="충청남도" value="충청남도">충청남도</option>
-            <option id="충청북도" value="충청북도">충청북도</option>
-            <option id="전라남도" value="전라남도">전라남도</option>
-            <option id="전라북도" value="전라북도">전라북도</option>
-            <option id="제주특별자치도" value="제주특별자치도">제주특별자치도</option>
-            <option id="대전광역시" value="대전광역시">대전광역시</option>
-            <option id="울산광역시" value="울산광역시">울산광역시</option>
-            <option id="광주광역시" value="광주광역시">광주광역시</option>
-            <option id="부산광역시" value="부산광역시">부산광역시</option>
-            <option id="대구광역시" value="대구광역시">대구광역시</option>
-            <option id="인천광역시" value="인천광역시">인천광역시</option>
-            <option id="세종특별자치시" value="세종특별자치시">세종특별자치시</option>
+        <select id="region" style="height: 100%" onchange="javascript:change_region(this)">
+        </select>
+        <select id="cityId" name="cityId" style="height: 100%">
         </select>
         <select name="statusCode" style="height: 100%">
             <option value="">영업상태</option>
@@ -93,11 +77,46 @@
 </ul>
 
 <script type="text/javascript">
+
+    function change_region(e) {
+        let region = e.value;
+        console.log(region)
+        let target = document.getElementById("cityId");
+        target.options.length = 0;
+
+        {{#stateList}}
+            if ("{{region}}" == region){
+                let opt = document.createElement("option");
+                opt.value = "{{id}}";
+                opt.innerText = "{{state}}";
+                if ("{{id}}" == {{cityId}}) {
+                    opt.selected = true;
+                }
+                target.appendChild(opt);
+            }
+        {{/stateList}}
+    }
+
     window.onload = function () {
+
+        // 지역 검색 Select 만들기
+        let region = document.getElementById("region");
+        region.options.length = 0;
+        let opt;
+
+        {{#regionList}}
+            opt = document.createElement("option");
+            opt.value = "{{region}}";
+            opt.innerText = "{{region}}";
+            if ("{{region}}" == "{{selectedRegion}}") {
+                opt.selected = true;
+                change_region(opt);
+            }
+            region.appendChild(opt);
+        {{/regionList}}
+
+
         // 검색 값 유지 처리
-        {{#region}}
-            document.getElementById('{{region}}').setAttribute("selected", true)
-        {{/region}}
         {{#statusCode}}
             document.getElementById('{{statusCode}}').setAttribute("selected", true)
         {{/statusCode}}
@@ -189,9 +208,12 @@
     }
 
     function make_url(url) {
-        {{#region}}
-            url += "&region={{region}}"
-        {{/region}}
+        {{#cityId}}
+            url += "&cityId={{cityId}}"
+        {{/cityId}}
+        {{#selectedState}}
+            url += "&region={{selectedState}}"
+        {{/selectedState}}
         {{#statusCode}}
             url += "&statusCode={{statusCode}}"
         {{/statusCode}}

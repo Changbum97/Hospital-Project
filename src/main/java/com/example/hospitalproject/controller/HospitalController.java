@@ -1,7 +1,9 @@
 package com.example.hospitalproject.controller;
 
 import com.example.hospitalproject.domain.dto.*;
+import com.example.hospitalproject.domain.entity.City;
 import com.example.hospitalproject.domain.entity.Hospital;
+import com.example.hospitalproject.service.CityService;
 import com.example.hospitalproject.service.HospitalService;
 import com.example.hospitalproject.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +24,13 @@ import java.util.stream.Collectors;
 public class HospitalController {
 
     private final HospitalService hospitalService;
+    private final CityService cityService;
     private final ReviewService reviewService;
 
     @GetMapping(value = {"", "/"})
     public String getAll(Model model,
                          @RequestParam(required = false, defaultValue = "1") Integer page,
-                         @RequestParam(defaultValue = "") String region,
+                         @RequestParam(defaultValue = "1") Long cityId,
                          @RequestParam(required = false) Integer statusCode,
                          @RequestParam(defaultValue = "") String type,
                          @RequestParam(defaultValue = "") String keyword,
@@ -42,14 +45,27 @@ public class HospitalController {
             }
             model.addAttribute("sortBy", sortBy);
         }
-        Page<Hospital> hospitals = hospitalService.search(region, statusCode, type, keyword, pageable);
+
+        City selectedCity = cityService.findById(cityId);
+        String region = "";
+        String state = "";
+        if (!selectedCity.getRegion().equals("큰 도시")) {
+            region = selectedCity.getRegion();
+        }
+        if (!selectedCity.getState().equals("작은 도시") && !selectedCity.getState().equals("전체")) {
+            state = selectedCity.getState();
+        }
+
+        Page<Hospital> hospitals = hospitalService.search(region, state, statusCode, type, keyword, pageable);
         model.addAttribute("cnt", hospitals.getTotalElements());
 
         // 검색 옵션 유지를 위해 전송
-        if(!region.equals(""))  model.addAttribute("region", region);
         if(statusCode != null)  model.addAttribute("statusCode", statusCode);
         if(!type.equals(""))    model.addAttribute("type", type);
         if(!keyword.equals("")) model.addAttribute("keyword", keyword);
+        model.addAttribute("selectedRegion", selectedCity.getRegion());
+        model.addAttribute("cityId", cityId);
+
 
         // 페이징 작업을 위해 전송
         if (hospitals.getNumber() == 0) {
@@ -65,6 +81,10 @@ public class HospitalController {
                 hospitals.stream()
                 .map(hospital -> HospitalListDto.of(hospital))
                 .collect(Collectors.toList()));
+
+        // 지역 검색을 위해 전송
+        model.addAttribute("regionList", cityService.findAllRegion());
+        model.addAttribute("stateList", cityService.findAllState());
 
         return "hospitals/list";
     }
