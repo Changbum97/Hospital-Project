@@ -82,7 +82,7 @@
   - POST /hospitals/jpa/all/v3
     - csv 파일을 파싱 -> saveAll()로 한번에 DB에 삽입 + @Transactional 적용
     - 약 32초
-    - + application.yml에서 batch size 조정 => 약 22초
+    - +application.yml에서 batch size 조정 => 약 22초
   - GET /hospitals : 전체 조회 리스트 페이지, 페이징 추가, 검색 기능 추가
   - GET /hospitals/{hospitalId} : 병원 한 개 조회 페이지, 해당 병원에 달린 리뷰 조회 가능, 리뷰 추가 가능
   - POST /hospitals/{hospitalId}/reviews : 해당 병원에 리뷰 추가
