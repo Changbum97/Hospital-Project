@@ -36,7 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 
-### 출력 파일 ###
+### 입출력 파일 ###
 extract_data/
 
 ### Docker 실행 스크립트 ###
