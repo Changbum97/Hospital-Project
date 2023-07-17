@@ -9,14 +9,9 @@ spring:
   # DB 연결 정보
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    # url, username, password는 환경변수로 등록
-    url: url
-    username: username
-    password: password
-    # 배치 사이즈 조정에 필요
-    #hikari:
-    #  data-source-properties:
-    #    rewriteBatchedStatements: true
+    url: jdbc:mysql://localhost:3306/hospitals
+    username: root
+    password: root1234
 
   # JPA 설정
   jpa:
@@ -24,17 +19,4 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     database: mysql
     hibernate:
-      ddl-auto: update
-    # 배치 사이즈 조정
-    #properties:
-    #  hibernate:
-    #    jdbc:
-    #      batch_size: 111942
-    #      order_inserts: true
-    #      order_updates: true
-
-  # PUT, DELETE 가능하게 해줌
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
+      ddl-auto: create
